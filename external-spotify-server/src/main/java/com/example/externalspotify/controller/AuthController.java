@@ -25,7 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/initialize-tokens")
-    public AuthModel initializeTokens(@RequestBody String code) {
-        return authService.initializeTokens(code);
+    public ResponseEntity<AuthModel> initializeTokens(@RequestBody String code) {
+        AuthModel authModel = authService.initializeTokens(code);
+        return ResponseEntity.ok(authModel);
     }
 }
