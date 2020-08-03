@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,13 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'np-app';
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     const code = this.auth.autoLogin();
     if (!code) {
+      // it needs to init once right now
+      this.router.navigate(['spotify-uri-callback']);
       this.auth.login();
     }
   }

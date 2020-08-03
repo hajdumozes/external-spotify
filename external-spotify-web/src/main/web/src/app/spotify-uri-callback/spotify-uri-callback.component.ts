@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-spotify-uri-callback',
@@ -12,10 +13,13 @@ import { ActivatedRoute, Params } from '@angular/router';
   providers: [],
 })
 export class SpotifyUriCallbackComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(private auth: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     const code = this.route.snapshot.queryParams.code;
     localStorage.setItem('code', code);
+    if (!localStorage.getItem('user')) {
+      this.auth.initializeTokens(code).subscribe();
+    }
   }
 }
