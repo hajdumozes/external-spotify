@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -13,7 +13,11 @@ import { AuthService } from '../auth/auth.service';
   providers: [],
 })
 export class SpotifyUriCallbackComponent implements OnInit {
-  constructor(private auth: AuthService, private route: ActivatedRoute) {}
+  constructor(
+    private auth: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const code = this.route.snapshot.queryParams.code;
@@ -21,5 +25,6 @@ export class SpotifyUriCallbackComponent implements OnInit {
     if (!localStorage.getItem('user')) {
       this.auth.initializeTokens(code).subscribe();
     }
+    this.router.navigate(['local-tags']);
   }
 }
