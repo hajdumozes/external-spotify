@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providers: [],
 })
 export class AppComponent implements OnInit {
-  title = 'np-app';
+  title = 'External spotify';
 
   constructor(private auth: AuthService, private router: Router) {}
 
