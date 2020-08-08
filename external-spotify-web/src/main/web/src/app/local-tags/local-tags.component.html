@@ -1,0 +1,13 @@
+<p>
+  local-tags works!
+</p>
+<div class="form-group">
+  <label for="file">Local files</label>
+  <input
+    type="file"
+    id="file"
+    accept="audio/*"
+    multiple
+    (change)="handleFileInput($event.target.files)"
+  />
+</div>
