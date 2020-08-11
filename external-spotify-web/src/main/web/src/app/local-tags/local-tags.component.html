@@ -1,13 +1,37 @@
-<p>
-  local-tags works!
-</p>
-<div class="form-group">
-  <label for="file">Local files</label>
-  <input
-    type="file"
-    id="file"
-    accept="audio/*"
-    multiple
-    (change)="handleFileInput($event.target.files)"
-  />
+<div class="container">
+  <div class="center">
+    <app-drag-and-drop-box
+      (emitDropFiles)="handleFilesDropped($event)"
+      (emitDropText)="handleTextDropped($event)"
+    >
+      <h3>Drop your audio files here</h3>
+      <hr class="my-4" />
+      <p>
+        Dropped files will stay within your local browser. They will not be
+        uploaded anywhere else.
+      </p>
+    </app-drag-and-drop-box>
+
+    <div *ngFor="let upload of results">
+      <h2>File information</h2>
+      <table class="table">
+        <tr>
+          <td class="text-right">Artist</td>
+          <td>{{ upload.common.artist }}</td>
+        </tr>
+        <tr>
+          <td class="text-right">Album</td>
+          <td>{{ upload.common.album }}</td>
+        </tr>
+        <tr>
+          <td class="text-right">Title</td>
+          <td>{{ upload.common.title }}</td>
+        </tr>
+        <tr>
+          <td class="text-right">File type</td>
+          <td>{{ upload.format.codec }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

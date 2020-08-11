@@ -1,3 +1,4 @@
+import { DragAndDropBoxComponent } from './local-tags/drag-and-drop-box/drag-and-drop-box.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -8,7 +9,12 @@ import { SpotifyUriCallbackComponent } from './spotify-uri-callback/spotify-uri-
 import { LocalTagsComponent } from './local-tags/local-tags.component';
 
 @NgModule({
-  declarations: [AppComponent, SpotifyUriCallbackComponent, LocalTagsComponent],
+  declarations: [
+    AppComponent,
+    SpotifyUriCallbackComponent,
+    LocalTagsComponent,
+    DragAndDropBoxComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
