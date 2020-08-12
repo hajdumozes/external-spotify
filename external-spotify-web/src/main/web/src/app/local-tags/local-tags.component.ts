@@ -1,3 +1,4 @@
+import { SpotifyTrack } from './../local-tags/spotify-track.model';
 import { Component, OnInit } from '@angular/core';
 
 import { Id3TagParserService } from '../id3-tag-parser.service';
@@ -12,7 +13,7 @@ const debug = createDebug('audio-tag-analyzer:local-tags-component');
   styleUrls: ['./local-tags.component.css'],
 })
 export class LocalTagsComponent implements OnInit {
-  public results: IAudioMetadata[];
+  public results: SpotifyTrack[];
 
   constructor(private id3TagParserService: Id3TagParserService) {}
 
@@ -23,20 +24,20 @@ export class LocalTagsComponent implements OnInit {
     debug('handleFilesDropped', files);
     for (const file of files) {
       debug('Start parsing file %s', file.name);
-      const metadata = <IAudioMetadata>(
+      const tracks = <SpotifyTrack[]>(
         await this.id3TagParserService.parseFile(file)
       );
-      this.results.push(metadata);
+      tracks.forEach((track) => this.results.push(track));
     }
   }
 
   public async handleTextDropped(text) {
     this.results = []; // initialize results
     if (text.indexOf('http') === 0) {
-      const metadata = <IAudioMetadata>(
+      const tracks = <SpotifyTrack[]>(
         await this.id3TagParserService.parseUsingHttp(text)
       );
-      this.results.push(metadata);
+      tracks.forEach((track) => this.results.push(track));
     } else {
     }
   }

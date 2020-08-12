@@ -12,24 +12,26 @@
       </p>
     </app-drag-and-drop-box>
 
-    <div *ngFor="let upload of results">
+    <div *ngFor="let track of results">
       <h2>File information</h2>
       <table class="table">
         <tr>
-          <td class="text-right">Artist</td>
-          <td>{{ upload.common.artist }}</td>
+          <td class="text-right">Title</td>
+          <td>{{ track.title }}</td>
         </tr>
         <tr>
           <td class="text-right">Album</td>
-          <td>{{ upload.common.album }}</td>
+          <td>{{ track.album }}</td>
         </tr>
         <tr>
-          <td class="text-right">Title</td>
-          <td>{{ upload.common.title }}</td>
+          <td class="text-right">Artists</td>
+          <td>{{ track.artists }}</td>
         </tr>
         <tr>
-          <td class="text-right">File type</td>
-          <td>{{ upload.format.codec }}</td>
+          <td class="text-right">Url</td>
+          <td>
+            <a href="{{ track.url }}" target="_blank">Open in Spotify</a>
+          </td>
         </tr>
       </table>
     </div>

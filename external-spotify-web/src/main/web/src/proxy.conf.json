@@ -8,5 +8,10 @@
     "target": "http://localhost:8080/",
     "secure": true,
     "changeOrigin": true
+  },
+  "/track": {
+    "target": "http://localhost:8080/",
+    "secure": true,
+    "changeOrigin": true
   }
 }
