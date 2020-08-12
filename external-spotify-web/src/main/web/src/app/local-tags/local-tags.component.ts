@@ -23,7 +23,6 @@ export class LocalTagsComponent implements OnInit {
   ngOnInit(): void {}
 
   public async handleFilesDropped(files: File[]) {
-    this.exactMatches = []; // initialize results
     debug('handleFilesDropped', files);
     for (const file of files) {
       debug('Start parsing file %s', file.name);
@@ -35,7 +34,6 @@ export class LocalTagsComponent implements OnInit {
   }
 
   public async handleTextDropped(text) {
-    this.exactMatches = []; // initialize results
     if (text.indexOf('http') === 0) {
       const tag = await this.id3TagParserService.parseUsingHttp(text);
       this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
