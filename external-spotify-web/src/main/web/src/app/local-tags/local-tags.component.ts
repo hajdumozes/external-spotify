@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Id3TagParserService } from '../id3-tag-parser.service';
 import * as createDebug from 'debug';
-import { IAudioMetadata } from 'music-metadata-browser';
 
 const debug = createDebug('audio-tag-analyzer:local-tags-component');
 
