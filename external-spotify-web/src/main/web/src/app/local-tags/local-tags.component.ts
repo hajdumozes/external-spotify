@@ -14,7 +14,9 @@ const debug = createDebug('audio-tag-analyzer:local-tags-component');
   styleUrls: ['./local-tags.component.css'],
 })
 export class LocalTagsComponent implements OnInit {
-  public exactMatches: SpotifyTrack[];
+  public exactMatches: SpotifyTrack[] = [];
+  public multipleResults: SpotifyTrack[] = [];
+  public noResults: Id3Tag[] = [];
 
   constructor(
     private id3TagParserService: Id3TagParserService,
@@ -29,7 +31,7 @@ export class LocalTagsComponent implements OnInit {
       debug('Start parsing file %s', file.name);
       const tag = await this.id3TagParserService.parseFile(file);
       this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
-        tracks.forEach((track) => this.exactMatches.push(track));
+        this.distributeResults(tag, tracks);
       });
     }
   }
@@ -38,9 +40,19 @@ export class LocalTagsComponent implements OnInit {
     if (text.indexOf('http') === 0) {
       const tag = await this.id3TagParserService.parseUsingHttp(text);
       this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
-        tracks.forEach((track) => this.exactMatches.push(track));
+        this.distributeResults(tag, tracks);
       });
     } else {
+    }
+  }
+
+  private distributeResults(tag: Id3Tag, tracks: SpotifyTrack[]) {
+    if (tracks.length === 1) {
+      this.exactMatches.push(tracks[0]);
+    } else if (tracks.length > 1) {
+      tracks.forEach((track) => this.multipleResults.push(track));
+    } else {
+      this.noResults.push(tag);
     }
   }
 }

@@ -27,5 +27,37 @@
         <a href="{{ track.url }}" target="_blank">Link</a>
       </tr>
     </table>
+
+    <h2>Multiple results</h2>
+    <table class="table">
+      <tr>
+        <td>Title</td>
+        <td>Album</td>
+        <td>Artists</td>
+        <td>Url</td>
+      </tr>
+      <tr *ngFor="let track of multipleResults">
+        <td>{{ track.title }}</td>
+        <td>{{ track.album }}</td>
+        <td>{{ track.artistNames.join(", ") }}</td>
+        <a href="{{ track.url }}" target="_blank">Link</a>
+      </tr>
+    </table>
+
+    <h2>No results</h2>
+    <table class="table">
+      <tr>
+        <td>Title</td>
+        <td>Album</td>
+        <td>Artist</td>
+        <td>Year</td>
+      </tr>
+      <tr *ngFor="let tag of noResults">
+        <td>{{ tag.title }}</td>
+        <td>{{ tag.album }}</td>
+        <td>{{ tag.artist }}</td>
+        <td>{{ tag.year }}</td>
+      </tr>
+    </table>
   </div>
 </div>
