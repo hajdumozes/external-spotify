@@ -12,28 +12,20 @@
       </p>
     </app-drag-and-drop-box>
 
-    <div *ngFor="let track of results">
-      <h2>File information</h2>
-      <table class="table">
-        <tr>
-          <td class="text-right">Title</td>
-          <td>{{ track.title }}</td>
-        </tr>
-        <tr>
-          <td class="text-right">Album</td>
-          <td>{{ track.album }}</td>
-        </tr>
-        <tr>
-          <td class="text-right">Artists</td>
-          <td>{{ track.artists }}</td>
-        </tr>
-        <tr>
-          <td class="text-right">Url</td>
-          <td>
-            <a href="{{ track.url }}" target="_blank">Open in Spotify</a>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <h2>Exact matches</h2>
+    <table class="table">
+      <tr>
+        <td>Title</td>
+        <td>Album</td>
+        <td>Artists</td>
+        <td>Url</td>
+      </tr>
+      <tr *ngFor="let track of exactMatches">
+        <td>{{ track.title }}</td>
+        <td>{{ track.album }}</td>
+        <td>{{ track.artistNames.join(", ") }}</td>
+        <a href="{{ track.url }}" target="_blank">Link</a>
+      </tr>
+    </table>
   </div>
 </div>
