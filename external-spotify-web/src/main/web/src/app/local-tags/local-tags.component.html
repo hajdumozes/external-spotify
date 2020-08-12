@@ -12,8 +12,8 @@
       </p>
     </app-drag-and-drop-box>
 
-    <h2>Exact matches</h2>
-    <table class="table">
+    <h2 *ngIf="exactMatches.length > 0">Exact matches</h2>
+    <table *ngIf="exactMatches.length > 0" class="table">
       <tr>
         <td>Title</td>
         <td>Album</td>
@@ -28,8 +28,8 @@
       </tr>
     </table>
 
-    <h2>Multiple results</h2>
-    <table class="table">
+    <h2 *ngIf="multipleResults.length > 0">Multiple results</h2>
+    <table *ngIf="multipleResults.length > 0" class="table">
       <tr>
         <td>Title</td>
         <td>Album</td>
@@ -44,8 +44,8 @@
       </tr>
     </table>
 
-    <h2>No results</h2>
-    <table class="table">
+    <h2 *ngIf="noResults.length > 0">No results</h2>
+    <table *ngIf="noResults.length > 0" class="table">
       <tr>
         <td>Title</td>
         <td>Album</td>
