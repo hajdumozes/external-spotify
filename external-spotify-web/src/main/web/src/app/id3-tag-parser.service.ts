@@ -25,9 +25,9 @@ const debug = createDebug('audio-tag-analyzer:id3-tag-parser-service');
   providedIn: 'root',
 })
 export class Id3TagParserService {
-  constructor(private zone: NgZone, private spotifyService: SpotifyService) {}
+  constructor(private zone: NgZone) {}
 
-  public async parseUsingHttp(url: string): Promise<SpotifyTrack[]> {
+  public async parseUsingHttp(url: string): Promise<Id3Tag> {
     try {
       debug('Converting HTTP to stream using: ' + url);
 
@@ -40,7 +40,7 @@ export class Id3TagParserService {
       this.zone.run(() => {
         debug('Completed parsing of %s:', file.name, metadata);
       });
-      return this.spotifyService.getTrackFromSpotify(tag).toPromise();
+      return tag;
     } catch (err) {
       this.zone.run<void>(() => {
         debug('Error: ' + err.message);
@@ -48,7 +48,7 @@ export class Id3TagParserService {
     }
   }
 
-  public async parseFile(file: File): Promise<SpotifyTrack[]> {
+  public async parseFile(file: File): Promise<Id3Tag> {
     try {
       const t0 = new Date().getTime();
       debug('Parsing %s of type %s', file.name, file.type);
@@ -61,7 +61,7 @@ export class Id3TagParserService {
       this.zone.run(() => {
         debug('Completed parsing of %s:', file.name, metadata);
       });
-      return this.spotifyService.getTrackFromSpotify(tag).toPromise();
+      return tag;
     } catch (err) {
       this.zone.run<void>(() => {
         debug('Error: ' + err.message);

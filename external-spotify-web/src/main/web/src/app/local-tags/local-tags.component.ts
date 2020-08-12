@@ -1,3 +1,4 @@
+import { SpotifyService } from './../spotify.service';
 import { SpotifyTrack } from './../local-tags/spotify-track.model';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,7 +16,10 @@ const debug = createDebug('audio-tag-analyzer:local-tags-component');
 export class LocalTagsComponent implements OnInit {
   public results: SpotifyTrack[];
 
-  constructor(private id3TagParserService: Id3TagParserService) {}
+  constructor(
+    private id3TagParserService: Id3TagParserService,
+    private spotifyService: SpotifyService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -24,20 +28,20 @@ export class LocalTagsComponent implements OnInit {
     debug('handleFilesDropped', files);
     for (const file of files) {
       debug('Start parsing file %s', file.name);
-      const tracks = <SpotifyTrack[]>(
-        await this.id3TagParserService.parseFile(file)
-      );
-      tracks.forEach((track) => this.results.push(track));
+      const tag = await this.id3TagParserService.parseFile(file);
+      this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
+        tracks.forEach((track) => this.results.push(track));
+      });
     }
   }
 
   public async handleTextDropped(text) {
     this.results = []; // initialize results
     if (text.indexOf('http') === 0) {
-      const tracks = <SpotifyTrack[]>(
-        await this.id3TagParserService.parseUsingHttp(text)
-      );
-      tracks.forEach((track) => this.results.push(track));
+      const tag = await this.id3TagParserService.parseUsingHttp(text);
+      this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
+        tracks.forEach((track) => this.results.push(track));
+      });
     } else {
     }
   }
