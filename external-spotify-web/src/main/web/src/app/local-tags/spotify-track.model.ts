@@ -1,3 +1,4 @@
+import { SpotifyArtist } from './spotify-artist.model';
 export class SpotifyTrack {
   constructor(
     public album: string,
@@ -5,7 +6,10 @@ export class SpotifyTrack {
     public title: string,
     public trackId: string,
     public year: number,
-    public artists: string[],
+    public artists: SpotifyArtist[],
     public url: string
   ) {}
+  get artistNames() {
+    return this.artists.map((artist) => artist.name);
+  }
 }
