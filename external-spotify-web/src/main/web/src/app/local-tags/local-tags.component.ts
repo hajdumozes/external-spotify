@@ -1,3 +1,4 @@
+import { Id3Tag } from './id3-tag.model';
 import { SpotifyService } from './../spotify.service';
 import { SpotifyTrack } from './../local-tags/spotify-track.model';
 import { Component, OnInit } from '@angular/core';

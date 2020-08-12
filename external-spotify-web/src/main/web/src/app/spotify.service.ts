@@ -1,7 +1,7 @@
+import { Id3Tag } from './local-tags/id3-tag.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-import { Id3Tag } from './id3-tag-parser.service';
 import { Injectable } from '@angular/core';
 import { SpotifyTrack } from './local-tags/spotify-track.model';
 @Injectable({
