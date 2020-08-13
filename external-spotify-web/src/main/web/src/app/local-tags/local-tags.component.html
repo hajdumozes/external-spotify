@@ -19,12 +19,21 @@
         <td>Album</td>
         <td>Artists</td>
         <td>Url</td>
+        <td>Actions</td>
       </tr>
-      <tr *ngFor="let track of exactMatches">
+      <tr *ngFor="let track of exactMatches; let i = index">
         <td>{{ track.title }}</td>
         <td>{{ track.album }}</td>
         <td>{{ track.artistNames.join(", ") }}</td>
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
+        <td>
+          <fa-icon
+            title="Save to your liked songs"
+            class="heart-icon"
+            [icon]="faHeart"
+            (click)="likeSong(exactMatches[i])"
+          ></fa-icon>
+        </td>
       </tr>
     </table>
 
@@ -35,12 +44,21 @@
         <td>Album</td>
         <td>Artists</td>
         <td>Url</td>
+        <td>Actions</td>
       </tr>
-      <tr *ngFor="let track of multipleResults">
+      <tr *ngFor="let track of multipleResults; let i = index">
         <td>{{ track.title }}</td>
         <td>{{ track.album }}</td>
         <td>{{ track.artistNames.join(", ") }}</td>
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
+        <td>
+          <fa-icon
+            title="Save to your liked songs"
+            class="heart-icon"
+            [icon]="faHeart"
+            (click)="likeSong(multipleResults[i])"
+          ></fa-icon>
+        </td>
       </tr>
     </table>
 
