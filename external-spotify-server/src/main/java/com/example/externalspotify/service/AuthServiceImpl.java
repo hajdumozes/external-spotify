@@ -20,7 +20,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String generateAuthorizationCodeUri() {
         try {
-            CompletableFuture<URI> uri = spotifyApi.authorizationCodeUri().build().executeAsync();
+            CompletableFuture<URI> uri = spotifyApi
+                    .authorizationCodeUri()
+                    .scope("user-library-modify")
+                    .build()
+                    .executeAsync();
             return uri.get().toString();
         } catch (CompletionException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e.getCause().getMessage());
