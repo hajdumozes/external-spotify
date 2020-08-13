@@ -59,6 +59,8 @@ export class LocalTagsComponent implements OnInit {
   }
 
   public likeSong(track: SpotifyTrack) {
-    console.log('OUTPUT: LocalTagsComponent -> likeSong -> track', track);
+    this.spotifyService
+      .likeTrack(track.trackId)
+      .subscribe((resp) => console.log(resp));
   }
 }

@@ -1,5 +1,5 @@
 import { Id3Tag } from './local-tags/id3-tag.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
@@ -29,5 +29,10 @@ export class SpotifyService {
           )
         )
       );
+  }
+
+  public likeTrack(id: string) {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<string>('/like-track', { params });
   }
 }
