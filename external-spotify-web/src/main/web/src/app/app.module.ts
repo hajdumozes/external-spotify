@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SpotifyUriCallbackComponent } from './spotify-uri-callback/spotify-uri-callback.component';
 import { LocalTagsComponent } from './local-tags/local-tags.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,12 @@ import { LocalTagsComponent } from './local-tags/local-tags.component';
     LocalTagsComponent,
     DragAndDropBoxComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FontAwesomeModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
