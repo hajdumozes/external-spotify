@@ -3,12 +3,14 @@ package com.example.externalspotify.service;
 import com.example.externalspotify.entity.SpotifyArtist;
 import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
+import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.global.SpotifyApiSingleton;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.library.SaveTracksForUserRequest;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,10 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +37,20 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
             Track[] tracks = artistPaging.getItems();
             return Arrays.stream(tracks).map(this::mapTrackToSpotifyTrack).collect(Collectors.toList());
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+            throw new SpotifyException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void likeTrack(String id) {
+        SaveTracksForUserRequest saveTracksForUserRequest = spotifyApi.saveTracksForUser(id).build();
+        try {
+            CompletableFuture<String> stringFuture = saveTracksForUserRequest.executeAsync();
+            stringFuture.get();
+        } catch (CompletionException | InterruptedException | ExecutionException e) {
+            throw new SpotifyException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            throw new SpotifyException("Async operation cancelled.");
         }
     }
 
