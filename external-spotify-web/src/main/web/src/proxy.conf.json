@@ -1,17 +1,18 @@
 {
   "/spotify-uri": {
     "target": "http://localhost:8080/",
-    "secure": true,
-    "changeOrigin": true
+    "secure": false
   },
   "/initialize-tokens": {
     "target": "http://localhost:8080/",
-    "secure": true,
-    "changeOrigin": true
+    "secure": false
   },
   "/track": {
     "target": "http://localhost:8080/",
-    "secure": true,
-    "changeOrigin": true
+    "secure": false
+  },
+  "/like-track": {
+    "target": "http://localhost:8080/",
+    "secure": false
   }
 }
