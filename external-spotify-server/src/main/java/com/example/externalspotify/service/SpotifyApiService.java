@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SpotifyApiService {
     List<SpotifyTrack> searchForTrack(Id3Tag tag);
-    void likeTrack(String id);
+    void likeTrack(String ids);
     void saveAlbum(String ids);
 }

@@ -22,8 +22,8 @@ public class SpotifyController {
     }
 
     @GetMapping("/like-track")
-    public ResponseEntity<String> likeSong(@RequestParam String id) {
-        spotifyApiService.likeTrack(id);
+    public ResponseEntity<String> likeSong(@RequestParam String ids) {
+        spotifyApiService.likeTrack(ids);
         return ResponseEntity.ok().build();
     }
 

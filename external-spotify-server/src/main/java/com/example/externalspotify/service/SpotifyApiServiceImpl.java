@@ -43,8 +43,8 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
     }
 
     @Override
-    public void likeTrack(String id) {
-        SaveTracksForUserRequest saveTracksForUserRequest = spotifyApi.saveTracksForUser(id).build();
+    public void likeTrack(String ids) {
+        SaveTracksForUserRequest saveTracksForUserRequest = spotifyApi.saveTracksForUser(ids).build();
         try {
             CompletableFuture<String> stringFuture = saveTracksForUserRequest.executeAsync();
             stringFuture.get();

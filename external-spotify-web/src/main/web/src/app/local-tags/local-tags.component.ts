@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Id3TagParserService } from '../id3-tag-parser.service';
 import * as createDebug from 'debug';
 import { faHeart, faRecordVinyl } from '@fortawesome/free-solid-svg-icons';
+import Utils from './../util/Utils';
 
 const debug = createDebug('audio-tag-analyzer:local-tags-component');
 
@@ -59,8 +60,16 @@ export class LocalTagsComponent implements OnInit {
     }
   }
 
-  public likeSong(track: SpotifyTrack) {
-    this.spotifyService.likeTrack(track.trackId).subscribe();
+  public likeTrack(track: SpotifyTrack) {
+    this.spotifyService.likeTracks(track.trackId).subscribe();
+  }
+
+  public likeTracks(tracks: SpotifyTrack[]) {
+    const ids: string[] = tracks.map((track) => track.trackId);
+    const idChunks: string[][] = Utils.chunkArray(ids, 50);
+    idChunks.forEach((idChunk) =>
+      this.spotifyService.likeTracks(idChunk.join(',')).subscribe()
+    );
   }
 
   public saveAlbum(track: SpotifyTrack) {

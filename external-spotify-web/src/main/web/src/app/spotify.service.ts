@@ -31,8 +31,8 @@ export class SpotifyService {
       );
   }
 
-  public likeTrack(id: string) {
-    const params = new HttpParams().set('id', id);
+  public likeTracks(ids: string) {
+    const params = new HttpParams().set('ids', ids);
     return this.http.get<void>('/like-track', { params });
   }
 
