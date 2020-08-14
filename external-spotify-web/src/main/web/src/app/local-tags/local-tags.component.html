@@ -29,25 +29,25 @@
         <td>
           <fa-icon
             title="Save to your liked songs"
-            class="heart-icon"
+            class="heart-icon icon"
             [icon]="faHeart"
             (click)="likeTrack(exactMatches[i])"
           ></fa-icon>
           <fa-icon
             title="Save album to your library"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faVinyl"
             (click)="saveAlbum(exactMatches[i])"
           ></fa-icon>
           <fa-icon
             title="Follow artist"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faUserPlus"
             (click)="followArtist(exactMatches[i])"
           ></fa-icon>
           <fa-icon
             title="Remove from list"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faTimes"
             (click)="removeFromList(exactMatches, i)"
           ></fa-icon>
@@ -72,25 +72,25 @@
         <td>
           <fa-icon
             title="Save to your liked songs"
-            class="heart-icon"
+            class="heart-icon icon"
             [icon]="faHeart"
             (click)="likeTrack(multipleResults[i])"
           ></fa-icon>
           <fa-icon
             title="Save album to your library"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faVinyl"
             (click)="saveAlbum(multipleResults[i])"
           ></fa-icon>
           <fa-icon
             title="Follow artist"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faUserPlus"
             (click)="followArtist(multipleResults[i])"
           ></fa-icon>
           <fa-icon
             title="Remove from list"
-            class="vinyl-icon"
+            class="icon"
             [icon]="faTimes"
             (click)="removeFromList(multipleResults, i)"
           ></fa-icon>
