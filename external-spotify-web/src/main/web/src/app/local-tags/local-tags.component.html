@@ -45,6 +45,12 @@
             [icon]="faUserPlus"
             (click)="followArtist(exactMatches[i])"
           ></fa-icon>
+          <fa-icon
+            title="Remove from list"
+            class="vinyl-icon"
+            [icon]="faTimes"
+            (click)="removeFromList(exactMatches, i)"
+          ></fa-icon>
         </td>
       </tr>
     </table>
@@ -82,6 +88,12 @@
             [icon]="faUserPlus"
             (click)="followArtist(multipleResults[i])"
           ></fa-icon>
+          <fa-icon
+            title="Remove from list"
+            class="vinyl-icon"
+            [icon]="faTimes"
+            (click)="removeFromList(multipleResults, i)"
+          ></fa-icon>
         </td>
       </tr>
     </table>
@@ -94,11 +106,19 @@
         <td>Artist</td>
         <td>Year</td>
       </tr>
-      <tr *ngFor="let tag of noResults">
+      <tr *ngFor="let tag of noResults; let i = index">
         <td>{{ tag.title }}</td>
         <td>{{ tag.album }}</td>
         <td>{{ tag.artist }}</td>
         <td>{{ tag.year }}</td>
+        <td>
+          <fa-icon
+            title="Remove from list"
+            class="vinyl-icon"
+            [icon]="faTimes"
+            (click)="removeFromList(noResults, i)"
+          ></fa-icon>
+        </td>
       </tr>
     </table>
   </div>

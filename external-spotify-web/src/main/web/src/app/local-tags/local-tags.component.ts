@@ -9,6 +9,7 @@ import {
   faHeart,
   faRecordVinyl,
   faUserPlus,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import Utils from './../util/Utils';
 
@@ -26,6 +27,7 @@ export class LocalTagsComponent implements OnInit {
   public faHeart = faHeart;
   public faVinyl = faRecordVinyl;
   public faUserPlus = faUserPlus;
+  public faTimes = faTimes;
 
   constructor(
     private id3TagParserService: Id3TagParserService,
@@ -84,5 +86,9 @@ export class LocalTagsComponent implements OnInit {
   public followArtist(track: SpotifyTrack) {
     const artistIds: string[] = track.artists.map((artist) => artist.id);
     this.spotifyService.followArtists(artistIds.join(',')).subscribe();
+  }
+
+  public removeFromList(array: [any], index: number) {
+    array.splice(index, 1);
   }
 }
