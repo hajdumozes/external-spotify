@@ -6,10 +6,12 @@ import com.example.externalspotify.entity.SpotifyTrack;
 import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.global.SpotifyApiSingleton;
 import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.enums.ModelObjectType;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.follow.FollowArtistsOrUsersRequest;
 import com.wrapper.spotify.requests.data.library.SaveAlbumsForCurrentUserRequest;
 import com.wrapper.spotify.requests.data.library.SaveTracksForUserRequest;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
@@ -62,6 +64,22 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
                 .build();
         try {
             CompletableFuture<String> stringFuture = saveAlbumsForCurrentUserRequest.executeAsync();
+            stringFuture.get();
+        } catch (CompletionException | InterruptedException | ExecutionException e) {
+            throw new SpotifyException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            throw new SpotifyException("Async operation cancelled.");
+        }
+    }
+
+    @Override
+    public void followArtists(String ids) {
+        String[] array = ids.split(",");
+        FollowArtistsOrUsersRequest followArtistsOrUsersRequest = spotifyApi
+                .followArtistsOrUsers(ModelObjectType.ARTIST, array)
+                .build();
+        try {
+            CompletableFuture<String> stringFuture = followArtistsOrUsersRequest.executeAsync();
             stringFuture.get();
         } catch (CompletionException | InterruptedException | ExecutionException e) {
             throw new SpotifyException(e.getCause().getMessage());

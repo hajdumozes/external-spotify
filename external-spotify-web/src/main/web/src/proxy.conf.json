@@ -18,5 +18,9 @@
   "/save-album": {
     "target": "http://localhost:8080/",
     "secure": false
+  },
+  "/follow-artist": {
+    "target": "http://localhost:8080/",
+    "secure": false
   }
 }

@@ -40,4 +40,9 @@ export class SpotifyService {
     const params = new HttpParams().set('ids', id);
     return this.http.get<void>('/save-album', { params });
   }
+
+  public followArtists(ids: string) {
+    const params = new HttpParams().set('ids', ids);
+    return this.http.get<void>('/follow-artist', { params });
+  }
 }

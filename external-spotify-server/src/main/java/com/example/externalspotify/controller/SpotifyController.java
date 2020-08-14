@@ -33,6 +33,12 @@ public class SpotifyController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/follow-artist")
+    public ResponseEntity<String> followArtist(@RequestParam String ids) {
+        spotifyApiService.followArtists(ids);
+        return ResponseEntity.ok().build();
+    }
+
     @ExceptionHandler({SpotifyException.class})
     public ResponseEntity error(SpotifyException e) {
         return ResponseEntity.badRequest().body(e.getMessage());

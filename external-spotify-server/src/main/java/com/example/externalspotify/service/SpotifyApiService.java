@@ -9,4 +9,5 @@ public interface SpotifyApiService {
     List<SpotifyTrack> searchForTrack(Id3Tag tag);
     void likeTrack(String ids);
     void saveAlbum(String ids);
+    void followArtists(String ids);
 }

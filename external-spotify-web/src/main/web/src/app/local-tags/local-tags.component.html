@@ -39,6 +39,12 @@
             [icon]="faVinyl"
             (click)="saveAlbum(exactMatches[i])"
           ></fa-icon>
+          <fa-icon
+            title="Save album to your library"
+            class="vinyl-icon"
+            [icon]="faUserPlus"
+            (click)="followArtist(exactMatches[i])"
+          ></fa-icon>
         </td>
       </tr>
     </table>
@@ -68,7 +74,13 @@
             title="Save album to your library"
             class="vinyl-icon"
             [icon]="faVinyl"
-            (click)="saveAlbum(exactMatches[i])"
+            (click)="saveAlbum(multipleResults[i])"
+          ></fa-icon>
+          <fa-icon
+            title="Save album to your library"
+            class="vinyl-icon"
+            [icon]="faUserPlus"
+            (click)="followArtist(multipleResults[i])"
           ></fa-icon>
         </td>
       </tr>
