@@ -27,6 +27,12 @@ public class SpotifyController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/save-album")
+    public ResponseEntity<String> saveAlbum(@RequestParam String ids) {
+        spotifyApiService.saveAlbum(ids);
+        return ResponseEntity.ok().build();
+    }
+
     @ExceptionHandler({SpotifyException.class})
     public ResponseEntity error(SpotifyException e) {
         return ResponseEntity.badRequest().body(e.getMessage());

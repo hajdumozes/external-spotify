@@ -33,6 +33,12 @@
             [icon]="faHeart"
             (click)="likeSong(exactMatches[i])"
           ></fa-icon>
+          <fa-icon
+            title="Save album to your library"
+            class="vinyl-icon"
+            [icon]="faVinyl"
+            (click)="saveAlbum(exactMatches[i])"
+          ></fa-icon>
         </td>
       </tr>
     </table>
@@ -57,6 +63,12 @@
             class="heart-icon"
             [icon]="faHeart"
             (click)="likeSong(multipleResults[i])"
+          ></fa-icon>
+          <fa-icon
+            title="Save album to your library"
+            class="vinyl-icon"
+            [icon]="faVinyl"
+            (click)="saveAlbum(exactMatches[i])"
           ></fa-icon>
         </td>
       </tr>

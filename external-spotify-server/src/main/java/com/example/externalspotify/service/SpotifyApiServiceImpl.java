@@ -10,6 +10,7 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.library.SaveAlbumsForCurrentUserRequest;
 import com.wrapper.spotify.requests.data.library.SaveTracksForUserRequest;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 import org.apache.hc.core5.http.ParseException;
@@ -46,6 +47,21 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         SaveTracksForUserRequest saveTracksForUserRequest = spotifyApi.saveTracksForUser(id).build();
         try {
             CompletableFuture<String> stringFuture = saveTracksForUserRequest.executeAsync();
+            stringFuture.get();
+        } catch (CompletionException | InterruptedException | ExecutionException e) {
+            throw new SpotifyException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            throw new SpotifyException("Async operation cancelled.");
+        }
+    }
+
+    @Override
+    public void saveAlbum(String ids) {
+        SaveAlbumsForCurrentUserRequest saveAlbumsForCurrentUserRequest = spotifyApi
+                .saveAlbumsForCurrentUser(ids)
+                .build();
+        try {
+            CompletableFuture<String> stringFuture = saveAlbumsForCurrentUserRequest.executeAsync();
             stringFuture.get();
         } catch (CompletionException | InterruptedException | ExecutionException e) {
             throw new SpotifyException(e.getCause().getMessage());
