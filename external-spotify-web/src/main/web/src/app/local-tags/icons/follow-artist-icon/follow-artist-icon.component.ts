@@ -1,7 +1,9 @@
+import { SpotifyArtist } from './../../spotify-artist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { SpotifyService } from './../../../spotify.service';
 import { Component, Input } from '@angular/core';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import Utils from './../../../util/Utils';
 
 @Component({
   selector: 'app-follow-artist-icon',
@@ -11,7 +13,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
         title="Follow artist"
         class="icon"
         [icon]="faUserPlus"
-        (click)="followArtist(track)"
+        (click)="followArtists(tracks)"
         *ngIf="!loading"
         [ngClass]="{ followed: followed }"
       ></fa-icon>
@@ -29,18 +31,26 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 })
 export class FollowArtistIconComponent {
   public faUserPlus = faUserPlus;
-  @Input() track: SpotifyTrack;
+  @Input() tracks: SpotifyTrack[];
   public loading: boolean = false;
   public followed: boolean = false;
 
   constructor(private spotifyService: SpotifyService) {}
 
-  public followArtist(track: SpotifyTrack) {
+  public followArtists(tracks: SpotifyTrack[]) {
+    if (!Array.isArray(tracks)) {
+      tracks = [tracks];
+    }
     this.loading = true;
-    const artistIds: string[] = track.artists.map((artist) => artist.id);
-    this.spotifyService.followArtists(artistIds.join(',')).subscribe(() => {
-      this.loading = false;
-      this.followed = true;
-    });
+    const artists: SpotifyArtist[][] = tracks.map((track) => track.artists);
+    const mergedArtists: SpotifyArtist[] = [].concat.apply([], artists);
+    const artistIds: string[] = mergedArtists.map((artist) => artist.id);
+    const idChunks: string[][] = Utils.chunkArray(artistIds, 50);
+    idChunks.forEach((idChunk) =>
+      this.spotifyService.followArtists(idChunk.join(',')).subscribe(() => {
+        this.loading = false;
+        this.followed = true;
+      })
+    );
   }
 }
