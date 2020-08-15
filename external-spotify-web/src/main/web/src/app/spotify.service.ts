@@ -36,8 +36,8 @@ export class SpotifyService {
     return this.http.get<void>('/like-track', { params });
   }
 
-  public saveAlbum(id: string) {
-    const params = new HttpParams().set('ids', id);
+  public saveAlbums(ids: string) {
+    const params = new HttpParams().set('ids', ids);
     return this.http.get<void>('/save-album', { params });
   }
 
