@@ -58,7 +58,10 @@ import Utils from './../../../util/Utils';
       </tbody>
     </table>
   `,
-  styleUrls: ['./no-results-table.component.css'],
+  styleUrls: [
+    './no-results-table.component.css',
+    './../../local-tags.component.css',
+  ],
 })
 export class NoResultsTableComponent {
   @Input() tags: Id3Tag[];
