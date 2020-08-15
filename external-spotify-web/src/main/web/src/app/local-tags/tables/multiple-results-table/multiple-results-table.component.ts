@@ -28,12 +28,26 @@ import Utils from './../../../util/Utils';
           <td>{{ track.artistNames.join(', ') }}</td>
           <td><a href="{{ track.url }}" target="_blank">Link</a></td>
           <td>
-            <app-like-icon [track]="tracks[i]"></app-like-icon>
+            <app-like-icon [tracks]="[tracks[i]]"></app-like-icon>
             <app-album-icon [track]="tracks[i]"></app-album-icon>
             <app-follow-artist-icon
               [track]="tracks[i]"
             ></app-follow-artist-icon>
             <app-remove-icon [array]="tracks" [index]="i"></app-remove-icon>
+          </td>
+        </tr>
+        <tr *ngIf="selectedTracks.length > 0">
+          <td>All Selected Tracks</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <app-like-icon [tracks]="selectedTracks"></app-like-icon>
+            <app-album-icon [track]="null"></app-album-icon>
+            <app-follow-artist-icon
+              [track]="tracks[0]"
+            ></app-follow-artist-icon>
+            <app-remove-icon [array]="tracks" [index]="0"></app-remove-icon>
           </td>
         </tr>
       </tbody>

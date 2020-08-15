@@ -62,12 +62,4 @@ export class LocalTagsComponent {
       array.push(object);
     }
   }
-
-  public likeTracks(tracks: SpotifyTrack[]) {
-    const ids: string[] = tracks.map((track) => track.trackId);
-    const idChunks: string[][] = Utils.chunkArray(ids, 50);
-    idChunks.forEach((idChunk) =>
-      this.spotifyService.likeTracks(idChunk.join(',')).subscribe()
-    );
-  }
 }

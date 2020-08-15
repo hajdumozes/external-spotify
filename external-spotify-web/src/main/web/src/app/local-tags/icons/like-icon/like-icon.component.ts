@@ -2,6 +2,7 @@ import { SpotifyService } from './../../../spotify.service';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input } from '@angular/core';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import Utils from './../../../util/Utils';
 
 @Component({
   selector: 'app-like-icon',
@@ -11,7 +12,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
         title="Save to your liked songs"
         class="heart-icon icon"
         [icon]="faHeart"
-        (click)="likeTrack(track)"
+        (click)="likeTracks(tracks)"
         *ngIf="!loading"
         [ngClass]="{ liked: liked }"
       ></fa-icon>
@@ -28,14 +29,21 @@ export class LikeIconComponent {
   public loading: boolean = false;
   public liked: boolean = false;
   public faHeart = faHeart;
-  @Input() public track: SpotifyTrack;
+  @Input() public tracks: SpotifyTrack[];
   constructor(private spotifyService: SpotifyService) {}
 
-  public likeTrack(track: SpotifyTrack) {
+  public likeTracks(tracks: SpotifyTrack[]) {
+    if (!Array.isArray(tracks)) {
+      tracks = [tracks];
+    }
     this.loading = true;
-    this.spotifyService.likeTracks(track.trackId).subscribe(() => {
-      this.loading = false;
-      this.liked = true;
-    });
+    const ids: string[] = tracks.map((track) => track.trackId);
+    const idChunks: string[][] = Utils.chunkArray(ids, 50);
+    idChunks.forEach((idChunk) =>
+      this.spotifyService.likeTracks(idChunk.join(',')).subscribe(() => {
+        this.loading = false;
+        this.liked = true;
+      })
+    );
   }
 }
