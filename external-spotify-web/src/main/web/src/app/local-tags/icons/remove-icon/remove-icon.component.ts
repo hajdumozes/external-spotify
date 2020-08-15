@@ -28,7 +28,10 @@ export class RemoveIconComponent {
     if (!Array.isArray(items)) {
       items = [items];
     }
-    items.forEach((item) => this.removeFromList(array, item));
+    let i = items.length;
+    while (i--) {
+      this.removeFromList(array, items[i]);
+    }
   }
 
   public removeFromList(array: any[], item: any) {

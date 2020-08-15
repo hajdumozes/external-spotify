@@ -56,6 +56,21 @@ import Utils from './../../../util/Utils';
             ></app-remove-icon>
           </td>
         </tr>
+        <tr>
+          <td>All Tracks</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <app-like-icon [tracks]="tracks"></app-like-icon>
+            <app-album-icon [tracks]="tracks"></app-album-icon>
+            <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
+            <app-remove-icon
+              [array]="tracks"
+              [items]="tracks"
+            ></app-remove-icon>
+          </td>
+        </tr>
       </tbody>
     </table>
   `,

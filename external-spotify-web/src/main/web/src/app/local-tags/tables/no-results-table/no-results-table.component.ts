@@ -34,7 +34,7 @@ import Utils from './../../../util/Utils';
           </td>
         </tr>
         <tr *ngIf="selectedTags.length > 0">
-          <td>All Selected Tracks</td>
+          <td>All Selected Tags</td>
           <td></td>
           <td></td>
           <td></td>
@@ -43,6 +43,15 @@ import Utils from './../../../util/Utils';
               [array]="tags"
               [items]="selectedTags"
             ></app-remove-icon>
+          </td>
+        </tr>
+        <tr>
+          <td>All Tags</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <app-remove-icon [array]="tags" [items]="tags"></app-remove-icon>
           </td>
         </tr>
       </tbody>
