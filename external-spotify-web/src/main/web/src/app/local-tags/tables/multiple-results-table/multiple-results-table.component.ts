@@ -1,36 +1,66 @@
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input } from '@angular/core';
+import Utils from './../../../util/Utils';
 
 @Component({
   selector: 'app-multiple-results-table',
   template: `
     <h2 *ngIf="tracks.length > 0">Multiple results</h2>
-    <table *ngIf="tracks.length > 0" class="table">
-      <tr>
-        <td>Title</td>
-        <td>Album</td>
-        <td>Artists</td>
-        <td>Url</td>
-        <td>Actions</td>
-      </tr>
-      <tr *ngFor="let track of tracks; let i = index">
-        <td>{{ track.title }}</td>
-        <td>{{ track.album }}</td>
-        <td>{{ track.artistNames.join(', ') }}</td>
-        <td><a href="{{ track.url }}" target="_blank">Link</a></td>
-        <td>
-          <app-like-icon [track]="tracks[i]"></app-like-icon>
-          <app-album-icon [track]="tracks[i]"></app-album-icon>
-          <app-follow-artist-icon [track]="tracks[i]"></app-follow-artist-icon>
-          <app-remove-icon [array]="tracks" [index]="i"></app-remove-icon>
-        </td>
-      </tr>
+    <table *ngIf="tracks.length > 0" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Album</th>
+          <th>Artists</th>
+          <th>Url</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let track of tracks; let i = index"
+          class="clickable-row"
+          (click)="selectRow(track)"
+          [ngClass]="{ 'table-active': isActive(track) }"
+        >
+          <td>{{ track.title }}</td>
+          <td>{{ track.album }}</td>
+          <td>{{ track.artistNames.join(', ') }}</td>
+          <td><a href="{{ track.url }}" target="_blank">Link</a></td>
+          <td>
+            <app-like-icon [track]="tracks[i]"></app-like-icon>
+            <app-album-icon [track]="tracks[i]"></app-album-icon>
+            <app-follow-artist-icon
+              [track]="tracks[i]"
+            ></app-follow-artist-icon>
+            <app-remove-icon [array]="tracks" [index]="i"></app-remove-icon>
+          </td>
+        </tr>
+      </tbody>
     </table>
   `,
-  styleUrls: ['./multiple-results-table.component.css'],
+  styleUrls: [
+    './multiple-results-table.component.css',
+    './../../local-tags.component.css',
+  ],
 })
 export class MultipleResultsTableComponent {
   @Input() tracks: SpotifyTrack[];
+  selectedTracks: SpotifyTrack[] = [];
 
   constructor() {}
+
+  isActive(track: SpotifyTrack) {
+    let active = Utils.findIndexOf(this.selectedTracks, track) > -1;
+    return active;
+  }
+
+  selectRow(track: SpotifyTrack) {
+    const indexOf = Utils.findIndexOf(this.selectedTracks, track);
+    if (indexOf > -1) {
+      this.selectedTracks.splice(indexOf, 1);
+    } else {
+      this.selectedTracks.push(track);
+    }
+  }
 }
