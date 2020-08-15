@@ -40,12 +40,7 @@
             [icon]="faUserPlus"
             (click)="followArtist(exactMatches[i])"
           ></fa-icon>
-          <fa-icon
-            title="Remove from list"
-            class="icon"
-            [icon]="faTimes"
-            (click)="removeFromList(exactMatches, i)"
-          ></fa-icon>
+          <app-remove-icon [array]="exactMatches" [index]="i"></app-remove-icon>
         </td>
       </tr>
     </table>
@@ -78,12 +73,10 @@
             [icon]="faUserPlus"
             (click)="followArtist(multipleResults[i])"
           ></fa-icon>
-          <fa-icon
-            title="Remove from list"
-            class="icon"
-            [icon]="faTimes"
-            (click)="removeFromList(multipleResults, i)"
-          ></fa-icon>
+          <app-remove-icon
+            [array]="multipleResults"
+            [index]="i"
+          ></app-remove-icon>
         </td>
       </tr>
     </table>
@@ -102,12 +95,7 @@
         <td>{{ tag.artist }}</td>
         <td>{{ tag.year }}</td>
         <td>
-          <fa-icon
-            title="Remove from list"
-            class="vinyl-icon"
-            [icon]="faTimes"
-            (click)="removeFromList(noResults, i)"
-          ></fa-icon>
+          <app-remove-icon [array]="noResults" [index]="i"></app-remove-icon>
         </td>
       </tr>
     </table>

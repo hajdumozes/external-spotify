@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
+import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.compon
     LocalTagsComponent,
     DragAndDropBoxComponent,
     LikeIconComponent,
+    RemoveIconComponent,
   ],
   imports: [
     BrowserModule,
