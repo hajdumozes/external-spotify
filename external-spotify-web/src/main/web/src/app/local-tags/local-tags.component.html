@@ -27,12 +27,7 @@
         <td>{{ track.artistNames.join(", ") }}</td>
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
         <td>
-          <fa-icon
-            title="Save to your liked songs"
-            class="heart-icon icon"
-            [icon]="faHeart"
-            (click)="likeTrack(exactMatches[i])"
-          ></fa-icon>
+          <app-like-icon [track]="exactMatches[i]"></app-like-icon>
           <fa-icon
             title="Save album to your library"
             class="icon"
@@ -70,12 +65,7 @@
         <td>{{ track.artistNames.join(", ") }}</td>
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
         <td>
-          <fa-icon
-            title="Save to your liked songs"
-            class="heart-icon icon"
-            [icon]="faHeart"
-            (click)="likeTrack(multipleResults[i])"
-          ></fa-icon>
+          <app-like-icon [track]="multipleResults[i]"></app-like-icon>
           <fa-icon
             title="Save album to your library"
             class="icon"

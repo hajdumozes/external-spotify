@@ -10,6 +10,7 @@ import { LocalTagsComponent } from './local-tags/local-tags.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SpotifyUriCallbackComponent,
     LocalTagsComponent,
     DragAndDropBoxComponent,
+    LikeIconComponent,
   ],
   imports: [
     BrowserModule,
