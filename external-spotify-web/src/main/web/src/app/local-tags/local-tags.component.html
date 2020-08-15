@@ -29,12 +29,9 @@
         <td>
           <app-like-icon [track]="exactMatches[i]"></app-like-icon>
           <app-album-icon [track]="exactMatches[i]"></app-album-icon>
-          <fa-icon
-            title="Follow artist"
-            class="icon"
-            [icon]="faUserPlus"
-            (click)="followArtist(exactMatches[i])"
-          ></fa-icon>
+          <app-follow-artist-icon
+            [track]="exactMatches[i]"
+          ></app-follow-artist-icon>
           <app-remove-icon [array]="exactMatches" [index]="i"></app-remove-icon>
         </td>
       </tr>
@@ -57,12 +54,9 @@
         <td>
           <app-like-icon [track]="multipleResults[i]"></app-like-icon>
           <app-album-icon [track]="multipleResults[i]"></app-album-icon>
-          <fa-icon
-            title="Follow artist"
-            class="icon"
-            [icon]="faUserPlus"
-            (click)="followArtist(multipleResults[i])"
-          ></fa-icon>
+          <app-follow-artist-icon
+            [track]="multipleResults[i]"
+          ></app-follow-artist-icon>
           <app-remove-icon
             [array]="multipleResults"
             [index]="i"

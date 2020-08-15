@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
 import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
 import { AlbumIconComponent } from './local-tags/icons/album-icon/album-icon.component';
+import { FollowArtistIconComponent } from './local-tags/icons/follow-artist-icon/follow-artist-icon.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AlbumIconComponent } from './local-tags/icons/album-icon/album-icon.com
     LikeIconComponent,
     RemoveIconComponent,
     AlbumIconComponent,
+    FollowArtistIconComponent,
   ],
   imports: [
     BrowserModule,
