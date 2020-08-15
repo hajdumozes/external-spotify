@@ -27,7 +27,22 @@ import Utils from './../../../util/Utils';
           <td>{{ tag.artist }}</td>
           <td>{{ tag.year }}</td>
           <td>
-            <app-remove-icon [array]="tags" [index]="i"></app-remove-icon>
+            <app-remove-icon
+              [array]="tags"
+              [items]="[tags[i]]"
+            ></app-remove-icon>
+          </td>
+        </tr>
+        <tr *ngIf="selectedTags.length > 0">
+          <td>All Selected Tracks</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <app-remove-icon
+              [array]="tags"
+              [items]="selectedTags"
+            ></app-remove-icon>
           </td>
         </tr>
       </tbody>

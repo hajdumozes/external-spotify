@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Utils from './../../../util/Utils';
 
 @Component({
   selector: 'app-remove-icon',
@@ -8,7 +9,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
       title="Remove from list"
       class="icon"
       [icon]="faTimes"
-      (click)="removeFromList(array, index)"
+      (click)="removeMultipleFromList(array, items)"
     ></fa-icon>
   `,
   styleUrls: [
@@ -17,13 +18,23 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
   ],
 })
 export class RemoveIconComponent {
-  @Input() array: [any];
-  @Input() index: number;
+  @Input() array: any[];
+  @Input() items: any[];
   faTimes = faTimes;
 
   constructor() {}
 
-  public removeFromList(array: [any], index: number) {
-    array.splice(index, 1);
+  public removeMultipleFromList(array: any[], items: any[]) {
+    if (!Array.isArray(items)) {
+      items = [items];
+    }
+    items.forEach((item) => this.removeFromList(array, item));
+  }
+
+  public removeFromList(array: any[], item: any) {
+    const index = Utils.findIndexOf(array, item);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
   }
 }

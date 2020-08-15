@@ -33,7 +33,10 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="[tracks[i]]"
             ></app-follow-artist-icon>
-            <app-remove-icon [array]="tracks" [index]="i"></app-remove-icon>
+            <app-remove-icon
+              [array]="tracks"
+              [items]="tracks[i]"
+            ></app-remove-icon>
           </td>
         </tr>
         <tr *ngIf="selectedTracks.length > 0">
@@ -47,7 +50,10 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="selectedTracks"
             ></app-follow-artist-icon>
-            <app-remove-icon [array]="tracks" [index]="0"></app-remove-icon>
+            <app-remove-icon
+              [array]="tracks"
+              [items]="selectedTracks"
+            ></app-remove-icon>
           </td>
         </tr>
       </tbody>
