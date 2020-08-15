@@ -47,11 +47,19 @@ export class LocalTagsComponent {
 
   private distributeResults(tag: Id3Tag, tracks: SpotifyTrack[]) {
     if (tracks.length === 1) {
-      this.exactMatches.push(tracks[0]);
+      this.addIfNotPresent(this.exactMatches, tracks[0]);
     } else if (tracks.length > 1) {
-      tracks.forEach((track) => this.multipleResults.push(track));
+      tracks.forEach((track) =>
+        this.addIfNotPresent(this.multipleResults, track)
+      );
     } else {
-      this.noResults.push(tag);
+      this.addIfNotPresent(this.noResults, tag);
+    }
+  }
+
+  private addIfNotPresent(array: any[], object: any) {
+    if (Utils.findIndexOf(array, object) === -1) {
+      array.push(object);
     }
   }
 
