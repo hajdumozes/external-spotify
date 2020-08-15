@@ -12,76 +12,10 @@
       </p>
     </app-drag-and-drop-box>
 
-    <h2 *ngIf="exactMatches.length > 0">Exact matches</h2>
-    <table *ngIf="exactMatches.length > 0" class="table">
-      <tr>
-        <td>Title</td>
-        <td>Album</td>
-        <td>Artists</td>
-        <td>Url</td>
-        <td>Actions</td>
-      </tr>
-      <tr *ngFor="let track of exactMatches; let i = index">
-        <td>{{ track.title }}</td>
-        <td>{{ track.album }}</td>
-        <td>{{ track.artistNames.join(", ") }}</td>
-        <td><a href="{{ track.url }}" target="_blank">Link</a></td>
-        <td>
-          <app-like-icon [track]="exactMatches[i]"></app-like-icon>
-          <app-album-icon [track]="exactMatches[i]"></app-album-icon>
-          <app-follow-artist-icon
-            [track]="exactMatches[i]"
-          ></app-follow-artist-icon>
-          <app-remove-icon [array]="exactMatches" [index]="i"></app-remove-icon>
-        </td>
-      </tr>
-    </table>
-
-    <h2 *ngIf="multipleResults.length > 0">Multiple results</h2>
-    <table *ngIf="multipleResults.length > 0" class="table">
-      <tr>
-        <td>Title</td>
-        <td>Album</td>
-        <td>Artists</td>
-        <td>Url</td>
-        <td>Actions</td>
-      </tr>
-      <tr *ngFor="let track of multipleResults; let i = index">
-        <td>{{ track.title }}</td>
-        <td>{{ track.album }}</td>
-        <td>{{ track.artistNames.join(", ") }}</td>
-        <td><a href="{{ track.url }}" target="_blank">Link</a></td>
-        <td>
-          <app-like-icon [track]="multipleResults[i]"></app-like-icon>
-          <app-album-icon [track]="multipleResults[i]"></app-album-icon>
-          <app-follow-artist-icon
-            [track]="multipleResults[i]"
-          ></app-follow-artist-icon>
-          <app-remove-icon
-            [array]="multipleResults"
-            [index]="i"
-          ></app-remove-icon>
-        </td>
-      </tr>
-    </table>
-
-    <h2 *ngIf="noResults.length > 0">No results</h2>
-    <table *ngIf="noResults.length > 0" class="table">
-      <tr>
-        <td>Title</td>
-        <td>Album</td>
-        <td>Artist</td>
-        <td>Year</td>
-      </tr>
-      <tr *ngFor="let tag of noResults; let i = index">
-        <td>{{ tag.title }}</td>
-        <td>{{ tag.album }}</td>
-        <td>{{ tag.artist }}</td>
-        <td>{{ tag.year }}</td>
-        <td>
-          <app-remove-icon [array]="noResults" [index]="i"></app-remove-icon>
-        </td>
-      </tr>
-    </table>
+    <app-exact-matches-table [tracks]="exactMatches"></app-exact-matches-table>
+    <app-multiple-results-table
+      [tracks]="multipleResults"
+    ></app-multiple-results-table>
+    <app-no-results-table [tracks]="noResults"></app-no-results-table>
   </div>
 </div>

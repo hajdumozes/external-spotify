@@ -14,6 +14,9 @@ import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.compon
 import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
 import { AlbumIconComponent } from './local-tags/icons/album-icon/album-icon.component';
 import { FollowArtistIconComponent } from './local-tags/icons/follow-artist-icon/follow-artist-icon.component';
+import { ExactMatchesTableComponent } from './local-tags/tables/exact-matches-table/exact-matches-table.component';
+import { MultipleResultsTableComponent } from './local-tags/tables/multiple-results-table/multiple-results-table.component';
+import { NoResultsTableComponent } from './local-tags/tables/no-results-table/no-results-table.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { FollowArtistIconComponent } from './local-tags/icons/follow-artist-icon
     RemoveIconComponent,
     AlbumIconComponent,
     FollowArtistIconComponent,
+    ExactMatchesTableComponent,
+    MultipleResultsTableComponent,
+    NoResultsTableComponent,
   ],
   imports: [
     BrowserModule,
