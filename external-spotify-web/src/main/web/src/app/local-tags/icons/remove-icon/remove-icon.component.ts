@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Utils from './../../../util/Utils';
 
@@ -21,6 +21,7 @@ export class RemoveIconComponent {
   @Input() array: any[];
   @Input() items: any[];
   faTimes = faTimes;
+  @Output() public clearSelectedTagsEvent = new EventEmitter<void>();
 
   constructor() {}
 
@@ -32,6 +33,7 @@ export class RemoveIconComponent {
     while (i--) {
       this.removeFromList(array, items[i]);
     }
+    this.clearSelectedTagsEvent.emit();
   }
 
   public removeFromList(array: any[], item: any) {

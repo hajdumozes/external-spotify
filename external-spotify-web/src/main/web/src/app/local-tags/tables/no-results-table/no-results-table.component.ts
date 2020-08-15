@@ -42,6 +42,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon
               [array]="tags"
               [items]="selectedTags"
+              (clearSelectedTagsEvent)="clearSelectedTags()"
             ></app-remove-icon>
           </td>
         </tr>
@@ -77,5 +78,9 @@ export class NoResultsTableComponent {
     } else {
       this.selectedTags.push(tag);
     }
+  }
+
+  clearSelectedTags() {
+    this.selectedTags = [];
   }
 }

@@ -53,6 +53,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon
               [array]="tracks"
               [items]="selectedTracks"
+              (clearSelectedTagsEvent)="clearSelectedTags()"
             ></app-remove-icon>
           </td>
         </tr>
@@ -97,5 +98,8 @@ export class ExactMatchesTableComponent {
     } else {
       this.selectedTracks.push(track);
     }
+  }
+  clearSelectedTags() {
+    this.selectedTracks = [];
   }
 }
