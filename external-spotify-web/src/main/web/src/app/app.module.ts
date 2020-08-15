@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
 import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
+import { AlbumIconComponent } from './local-tags/icons/album-icon/album-icon.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.
     DragAndDropBoxComponent,
     LikeIconComponent,
     RemoveIconComponent,
+    AlbumIconComponent,
   ],
   imports: [
     BrowserModule,

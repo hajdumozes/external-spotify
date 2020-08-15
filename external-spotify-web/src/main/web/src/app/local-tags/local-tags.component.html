@@ -28,12 +28,7 @@
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
         <td>
           <app-like-icon [track]="exactMatches[i]"></app-like-icon>
-          <fa-icon
-            title="Save album to your library"
-            class="icon"
-            [icon]="faVinyl"
-            (click)="saveAlbum(exactMatches[i])"
-          ></fa-icon>
+          <app-album-icon [track]="exactMatches[i]"></app-album-icon>
           <fa-icon
             title="Follow artist"
             class="icon"
@@ -61,12 +56,7 @@
         <td><a href="{{ track.url }}" target="_blank">Link</a></td>
         <td>
           <app-like-icon [track]="multipleResults[i]"></app-like-icon>
-          <fa-icon
-            title="Save album to your library"
-            class="icon"
-            [icon]="faVinyl"
-            (click)="saveAlbum(multipleResults[i])"
-          ></fa-icon>
+          <app-album-icon [track]="multipleResults[i]"></app-album-icon>
           <fa-icon
             title="Follow artist"
             class="icon"
