@@ -1,16 +1,10 @@
 import { Id3Tag } from './id3-tag.model';
 import { SpotifyService } from './../spotify.service';
 import { SpotifyTrack } from './../local-tags/spotify-track.model';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Id3TagParserService } from '../id3-tag-parser.service';
 import * as createDebug from 'debug';
-import {
-  faHeart,
-  faRecordVinyl,
-  faUserPlus,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
 import Utils from './../util/Utils';
 
 const debug = createDebug('audio-tag-analyzer:local-tags-component');
@@ -20,21 +14,15 @@ const debug = createDebug('audio-tag-analyzer:local-tags-component');
   templateUrl: './local-tags.component.html',
   styleUrls: ['./local-tags.component.css'],
 })
-export class LocalTagsComponent implements OnInit {
+export class LocalTagsComponent {
   public exactMatches: SpotifyTrack[] = [];
   public multipleResults: SpotifyTrack[] = [];
   public noResults: Id3Tag[] = [];
-  public faHeart = faHeart;
-  public faVinyl = faRecordVinyl;
-  public faUserPlus = faUserPlus;
-  public faTimes = faTimes;
 
   constructor(
     private id3TagParserService: Id3TagParserService,
     private spotifyService: SpotifyService
   ) {}
-
-  ngOnInit(): void {}
 
   public async handleFilesDropped(files: File[]) {
     debug('handleFilesDropped', files);
@@ -67,28 +55,11 @@ export class LocalTagsComponent implements OnInit {
     }
   }
 
-  public likeTrack(track: SpotifyTrack) {
-    this.spotifyService.likeTracks(track.trackId).subscribe();
-  }
-
   public likeTracks(tracks: SpotifyTrack[]) {
     const ids: string[] = tracks.map((track) => track.trackId);
     const idChunks: string[][] = Utils.chunkArray(ids, 50);
     idChunks.forEach((idChunk) =>
       this.spotifyService.likeTracks(idChunk.join(',')).subscribe()
     );
-  }
-
-  public saveAlbum(track: SpotifyTrack) {
-    this.spotifyService.saveAlbum(track.albumId).subscribe();
-  }
-
-  public followArtist(track: SpotifyTrack) {
-    const artistIds: string[] = track.artists.map((artist) => artist.id);
-    this.spotifyService.followArtists(artistIds.join(',')).subscribe();
-  }
-
-  public removeFromList(array: [any], index: number) {
-    array.splice(index, 1);
   }
 }

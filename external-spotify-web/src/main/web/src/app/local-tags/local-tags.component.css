@@ -2,8 +2,6 @@
   cursor: pointer;
   margin-left: 3px;
   margin-right: 3px;
-}
-
-.heart-icon {
-  color: red;
+  height: 10px;
+  width: 10px;
 }
