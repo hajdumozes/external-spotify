@@ -2,7 +2,7 @@ import { User } from './user.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 interface AuthResponseData {
   accessToken: string;
@@ -14,7 +14,7 @@ interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(this.getUserFromStorage());
 
   constructor(private http: HttpClient) {}
 
@@ -47,5 +47,15 @@ export class AuthService {
 
   private getUri() {
     return this.http.get(`/spotify-uri`, { responseType: 'text' });
+  }
+
+  private getUserFromStorage() {
+    const userObject: any = JSON.parse(localStorage.getItem('user'));
+    const user = new User(
+      userObject._accessToken,
+      userObject._refreshToken,
+      userObject._tokenExpirationDate
+    );
+    return user;
   }
 }

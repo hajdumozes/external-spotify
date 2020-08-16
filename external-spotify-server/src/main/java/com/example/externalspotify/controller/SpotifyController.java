@@ -16,26 +16,26 @@ public class SpotifyController {
     private SpotifyApiService spotifyApiService;
 
     @PostMapping("/track")
-    public ResponseEntity<List<SpotifyTrack>> getFromSpotify(@RequestBody Id3Tag id3Tag) {
-        List<SpotifyTrack> tracks = spotifyApiService.searchForTrack(id3Tag);
+    public ResponseEntity<List<SpotifyTrack>> getFromSpotify(@RequestBody Id3Tag id3Tag, @RequestParam String token) {
+        List<SpotifyTrack> tracks = spotifyApiService.searchForTrack(id3Tag, token);
         return ResponseEntity.ok(tracks);
     }
 
     @GetMapping("/like-track")
-    public ResponseEntity<String> likeSong(@RequestParam String ids) {
-        spotifyApiService.likeTrack(ids);
+    public ResponseEntity<String> likeSong(@RequestParam String ids, @RequestParam String token) {
+        spotifyApiService.likeTrack(ids, token);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/save-album")
-    public ResponseEntity<String> saveAlbum(@RequestParam String ids) {
-        spotifyApiService.saveAlbum(ids);
+    public ResponseEntity<String> saveAlbum(@RequestParam String ids, @RequestParam String token) {
+        spotifyApiService.saveAlbum(ids, token);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/follow-artist")
-    public ResponseEntity<String> followArtist(@RequestParam String ids) {
-        spotifyApiService.followArtists(ids);
+    public ResponseEntity<String> followArtist(@RequestParam String ids, @RequestParam String token) {
+        spotifyApiService.followArtists(ids, token);
         return ResponseEntity.ok().build();
     }
 

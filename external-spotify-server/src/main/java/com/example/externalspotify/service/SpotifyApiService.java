@@ -6,8 +6,8 @@ import com.example.externalspotify.entity.SpotifyTrack;
 import java.util.List;
 
 public interface SpotifyApiService {
-    List<SpotifyTrack> searchForTrack(Id3Tag tag);
-    void likeTrack(String ids);
-    void saveAlbum(String ids);
-    void followArtists(String ids);
+    List<SpotifyTrack> searchForTrack(Id3Tag tag, String accessToken);
+    void likeTrack(String ids, String token);
+    void saveAlbum(String ids, String token);
+    void followArtists(String ids, String token);
 }

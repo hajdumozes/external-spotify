@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpotifyUriCallbackComponent } from './spotify-uri-callback/spotify-uri-callback.component';
 import { LocalTagsComponent } from './local-tags/local-tags.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -17,6 +17,7 @@ import { FollowArtistIconComponent } from './local-tags/icons/follow-artist-icon
 import { ExactMatchesTableComponent } from './local-tags/tables/exact-matches-table/exact-matches-table.component';
 import { MultipleResultsTableComponent } from './local-tags/tables/multiple-results-table/multiple-results-table.component';
 import { NoResultsTableComponent } from './local-tags/tables/no-results-table/no-results-table.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,13 @@ import { NoResultsTableComponent } from './local-tags/tables/no-results-table/no
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -4,7 +4,7 @@ import com.example.externalspotify.entity.SpotifyArtist;
 import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
 import com.example.externalspotify.exception.SpotifyException;
-import com.example.externalspotify.global.SpotifyApiSingleton;
+import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.enums.ModelObjectType;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -30,10 +30,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class SpotifyApiServiceImpl implements SpotifyApiService {
-    private SpotifyApi spotifyApi = SpotifyApiSingleton.getInstance().getSpotifyApi();
 
     @Override
-    public List<SpotifyTrack> searchForTrack(Id3Tag id3Tag) {
+    public List<SpotifyTrack> searchForTrack(Id3Tag id3Tag, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(buildQueryParams(id3Tag)).build();
         try {
             Paging<Track> artistPaging = searchTracksRequest.execute();
@@ -45,7 +46,9 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
     }
 
     @Override
-    public void likeTrack(String ids) {
+    public void likeTrack(String ids, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
         SaveTracksForUserRequest saveTracksForUserRequest = spotifyApi.saveTracksForUser(ids).build();
         try {
             CompletableFuture<String> stringFuture = saveTracksForUserRequest.executeAsync();
@@ -58,7 +61,9 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
     }
 
     @Override
-    public void saveAlbum(String ids) {
+    public void saveAlbum(String ids, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
         SaveAlbumsForCurrentUserRequest saveAlbumsForCurrentUserRequest = spotifyApi
                 .saveAlbumsForCurrentUser(ids)
                 .build();
@@ -73,7 +78,9 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
     }
 
     @Override
-    public void followArtists(String ids) {
+    public void followArtists(String ids, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
         String[] array = ids.split(",");
         FollowArtistsOrUsersRequest followArtistsOrUsersRequest = spotifyApi
                 .followArtistsOrUsers(ModelObjectType.ARTIST, array)

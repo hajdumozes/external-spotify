@@ -1,7 +1,7 @@
 package com.example.externalspotify.service;
 
 import com.example.externalspotify.config.AuthModel;
-import com.example.externalspotify.global.SpotifyApiSingleton;
+import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
@@ -15,10 +15,10 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    private SpotifyApi spotifyApi = SpotifyApiSingleton.getInstance().getSpotifyApi();
 
     @Override
     public String generateAuthorizationCodeUri() {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         try {
             CompletableFuture<URI> uri = spotifyApi
                     .authorizationCodeUri()
@@ -34,14 +34,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public AuthModel initializeTokens(String code) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code).build();
         try {
             CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRequest.executeAsync();
 
             AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeCredentialsFuture.get();
-
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
             AuthModel authModel = new AuthModel();
             authModel.setAccessToken(authorizationCodeCredentials.getAccessToken());
