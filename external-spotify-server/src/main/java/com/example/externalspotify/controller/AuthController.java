@@ -1,6 +1,6 @@
 package com.example.externalspotify.controller;
 
-import com.example.externalspotify.config.AuthModel;
+import com.example.externalspotify.config.UserCredentials;
 import com.example.externalspotify.service.AuthService;
 import com.example.externalspotify.service.SpotifyApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/initialize-tokens")
-    public ResponseEntity<AuthModel> initializeTokens(@RequestBody String code) {
-        AuthModel authModel = authService.initializeTokens(code);
-        return ResponseEntity.ok(authModel);
+    public ResponseEntity<UserCredentials> initializeTokens(@RequestBody String code) {
+        UserCredentials userCredentials = authService.initializeTokens(code);
+        return ResponseEntity.ok(userCredentials);
     }
 }

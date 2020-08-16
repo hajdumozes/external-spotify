@@ -7,7 +7,7 @@ import { SpotifyTrack } from './local-tags/spotify-track.model';
 import { AuthService, AuthResponseData } from './auth/auth.service';
 
 interface SpotifyTracksCredential {
-  authModel: AuthResponseData;
+  userCredentials: AuthResponseData;
   tracks: SpotifyTrack[];
 }
 
@@ -21,8 +21,8 @@ export class SpotifyService {
     return this.http.post<SpotifyTracksCredential>('/track', id3Tag).pipe(
       map((response) => {
         const tracks = response.tracks;
-        const tokens = response.authModel;
-        this.authService.saveUserCredentials(tokens);
+        const credentials = response.userCredentials;
+        this.authService.saveUserCredentials(credentials);
         return tracks.map(
           (track) =>
             new SpotifyTrack(

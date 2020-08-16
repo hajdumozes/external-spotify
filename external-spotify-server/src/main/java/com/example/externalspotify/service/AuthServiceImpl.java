@@ -1,6 +1,6 @@
 package com.example.externalspotify.service;
 
-import com.example.externalspotify.config.AuthModel;
+import com.example.externalspotify.config.UserCredentials;
 import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthModel initializeTokens(String code) {
+    public UserCredentials initializeTokens(String code) {
         SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code).build();
         try {
@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthModel refreshTokens(String refreshToken) {
+    public UserCredentials refreshTokens(String refreshToken) {
         SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         spotifyApi.setRefreshToken(refreshToken);
         AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh()
@@ -60,9 +60,9 @@ public class AuthServiceImpl implements AuthService {
         try {
             CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRefreshRequest.executeAsync();
             AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeCredentialsFuture.get();
-            AuthModel authModel = buildAuthModelFrom(authorizationCodeCredentials);
-            authModel.setRefreshToken(refreshToken);
-            return authModel;
+            UserCredentials userCredentials = buildAuthModelFrom(authorizationCodeCredentials);
+            userCredentials.setRefreshToken(refreshToken);
+            return userCredentials;
 
         } catch (CompletionException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e.getCause().getMessage());
@@ -71,11 +71,11 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private AuthModel buildAuthModelFrom(AuthorizationCodeCredentials codeCredentials) {
-        AuthModel authModel = new AuthModel();
-        authModel.setAccessToken(codeCredentials.getAccessToken());
-        authModel.setRefreshToken(codeCredentials.getRefreshToken());
-        authModel.setExpiresIn(codeCredentials.getExpiresIn());
-        return authModel;
+    private UserCredentials buildAuthModelFrom(AuthorizationCodeCredentials codeCredentials) {
+        UserCredentials userCredentials = new UserCredentials();
+        userCredentials.setAccessToken(codeCredentials.getAccessToken());
+        userCredentials.setRefreshToken(codeCredentials.getRefreshToken());
+        userCredentials.setExpiresIn(codeCredentials.getExpiresIn());
+        return userCredentials;
     }
 }

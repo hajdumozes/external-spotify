@@ -1,6 +1,6 @@
 package com.example.externalspotify.controller;
 
-import com.example.externalspotify.config.AuthModel;
+import com.example.externalspotify.config.UserCredentials;
 import com.example.externalspotify.dto.SpotifyTracksCredentialDto;
 import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
@@ -23,30 +23,30 @@ public class SpotifyController {
     @PostMapping("/track")
     public ResponseEntity<SpotifyTracksCredentialDto> getFromSpotify(@RequestBody Id3Tag id3Tag, @RequestParam String accessToken, @RequestParam String refreshToken) {
         List<SpotifyTrack> tracks = spotifyApiService.searchForTrack(id3Tag, accessToken);
-        AuthModel authModel = authService.refreshTokens(refreshToken);
-        SpotifyTracksCredentialDto dto = mapSpotifyTracksToDto(tracks, authModel);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        SpotifyTracksCredentialDto dto = mapSpotifyTracksToDto(tracks, userCredentials);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/like-track")
-    public ResponseEntity<AuthModel> likeSong(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+    public ResponseEntity<UserCredentials> likeSong(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
         spotifyApiService.likeTrack(ids, accessToken);
-        AuthModel authModel = authService.refreshTokens(refreshToken);
-        return ResponseEntity.ok(authModel);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        return ResponseEntity.ok(userCredentials);
     }
 
     @GetMapping("/save-album")
-    public ResponseEntity<AuthModel> saveAlbum(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+    public ResponseEntity<UserCredentials> saveAlbum(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
         spotifyApiService.saveAlbum(ids, accessToken);
-        AuthModel authModel = authService.refreshTokens(refreshToken);
-        return ResponseEntity.ok(authModel);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        return ResponseEntity.ok(userCredentials);
     }
 
     @GetMapping("/follow-artist")
-    public ResponseEntity<AuthModel> followArtist(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+    public ResponseEntity<UserCredentials> followArtist(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
         spotifyApiService.followArtists(ids, accessToken);
-        AuthModel authModel = authService.refreshTokens(refreshToken);
-        return ResponseEntity.ok(authModel);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        return ResponseEntity.ok(userCredentials);
     }
 
     @ExceptionHandler({SpotifyException.class})
@@ -54,10 +54,10 @@ public class SpotifyController {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    private SpotifyTracksCredentialDto mapSpotifyTracksToDto(List<SpotifyTrack> tracks, AuthModel authModel) {
+    private SpotifyTracksCredentialDto mapSpotifyTracksToDto(List<SpotifyTrack> tracks, UserCredentials userCredentials) {
         SpotifyTracksCredentialDto dto = new SpotifyTracksCredentialDto();
         dto.setTracks(tracks);
-        dto.setAuthModel(authModel);
+        dto.setUserCredentials(userCredentials);
         return dto;
     }
 }
