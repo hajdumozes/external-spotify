@@ -4,6 +4,7 @@ import com.example.externalspotify.config.AuthModel;
 import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Override
     public AuthModel initializeTokens(String code) {
         SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code).build();
@@ -40,16 +42,40 @@ public class AuthServiceImpl implements AuthService {
             CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRequest.executeAsync();
 
             AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeCredentialsFuture.get();
+            return buildAuthModelFrom(authorizationCodeCredentials);
 
-            AuthModel authModel = new AuthModel();
-            authModel.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            authModel.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-            authModel.setExpiresIn(authorizationCodeCredentials.getExpiresIn());
-            return authModel;
         } catch (CompletionException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e.getCause().getMessage());
         } catch (CancellationException e) {
             return null;
         }
+    }
+
+    @Override
+    public AuthModel refreshTokens(String refreshToken) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setRefreshToken(refreshToken);
+        AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh()
+                .build();
+        try {
+            CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRefreshRequest.executeAsync();
+            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeCredentialsFuture.get();
+            AuthModel authModel = buildAuthModelFrom(authorizationCodeCredentials);
+            authModel.setRefreshToken(refreshToken);
+            return authModel;
+
+        } catch (CompletionException | ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            return null;
+        }
+    }
+
+    private AuthModel buildAuthModelFrom(AuthorizationCodeCredentials codeCredentials) {
+        AuthModel authModel = new AuthModel();
+        authModel.setAccessToken(codeCredentials.getAccessToken());
+        authModel.setRefreshToken(codeCredentials.getRefreshToken());
+        authModel.setExpiresIn(codeCredentials.getExpiresIn());
+        return authModel;
     }
 }

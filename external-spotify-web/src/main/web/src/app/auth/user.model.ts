@@ -11,4 +11,8 @@ export class User {
     }
     return this._accessToken;
   }
+
+  get refreshToken() {
+    return this._refreshToken;
+  }
 }

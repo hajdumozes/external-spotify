@@ -4,10 +4,16 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-interface AuthResponseData {
+export interface AuthResponseData {
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
+}
+
+interface AuthResponseDataStorage {
+  _accessToken: string;
+  _refreshToken: string;
+  _tokenExpirationDate: Date;
 }
 
 @Injectable({
@@ -29,20 +35,9 @@ export class AuthService {
   }
 
   public initializeTokens(code: string) {
-    return this.http.post<AuthResponseData>('/initialize-tokens', code).pipe(
-      tap((resData) => {
-        const expirationDate = new Date(
-          new Date().getTime() + resData.expiresIn * 1000
-        );
-        const user = new User(
-          resData.accessToken,
-          resData.refreshToken,
-          expirationDate
-        );
-        this.user.next(user);
-        localStorage.setItem('user', JSON.stringify(user));
-      })
-    );
+    return this.http
+      .post<AuthResponseData>('/initialize-tokens', code)
+      .pipe(tap((resData) => this.saveUserCredentials(resData)));
   }
 
   private getUri() {
@@ -50,12 +45,24 @@ export class AuthService {
   }
 
   private getUserFromStorage() {
-    const userObject: any = JSON.parse(localStorage.getItem('user'));
-    const user = new User(
-      userObject._accessToken,
-      userObject._refreshToken,
-      userObject._tokenExpirationDate
+    const userObject: AuthResponseDataStorage = JSON.parse(
+      localStorage.getItem('user')
     );
-    return user;
+    if (userObject) {
+      return new User(
+        userObject._accessToken,
+        userObject._refreshToken,
+        userObject._tokenExpirationDate
+      );
+    }
+  }
+
+  public saveUserCredentials(auth: AuthResponseData) {
+    const expirationDate = new Date(
+      new Date().getTime() + auth.expiresIn * 1000
+    );
+    const user = new User(auth.accessToken, auth.refreshToken, expirationDate);
+    this.user.next(user);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 }
