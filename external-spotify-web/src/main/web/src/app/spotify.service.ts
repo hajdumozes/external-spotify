@@ -11,6 +11,11 @@ interface SpotifyTracksCredential {
   tracks: SpotifyTrack[];
 }
 
+interface CheckedLikedTracksCredential {
+  userCredentials: AuthResponseData;
+  liked: boolean[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -58,5 +63,19 @@ export class SpotifyService {
     return this.http
       .get<AuthResponseData>('/follow-artist', { params })
       .pipe(tap((authResp) => this.authService.saveUserCredentials(authResp)));
+  }
+
+  public checkLikedTracks(ids: string) {
+    const params = new HttpParams().set('ids', ids);
+    return this.http
+      .get<CheckedLikedTracksCredential>('/check-liked-tracks', { params })
+      .pipe(
+        map((response) => {
+          const liked = response.liked;
+          const credentials = response.userCredentials;
+          this.authService.saveUserCredentials(credentials);
+          return liked;
+        })
+      );
   }
 }

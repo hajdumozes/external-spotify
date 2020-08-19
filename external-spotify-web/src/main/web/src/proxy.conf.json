@@ -22,5 +22,9 @@
   "/follow-artist": {
     "target": "http://localhost:8080/",
     "secure": false
+  },
+  "/check-liked-tracks": {
+    "target": "http://localhost:8080/",
+    "secure": false
   }
 }

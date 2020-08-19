@@ -29,10 +29,12 @@ export class LocalTagsComponent {
     for (const file of files) {
       debug('Start parsing file %s', file.name);
       const tag = await this.id3TagParserService.parseFile(file);
-      this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
-        this.distributeResults(tag, tracks);
-      });
+      const tracks: SpotifyTrack[] = await this.spotifyService
+        .getTrackFromSpotify(tag)
+        .toPromise();
+      await this.distributeResults(tag, tracks);
     }
+    this.checkLikedTracks();
   }
 
   public async handleTextDropped(text) {
@@ -61,5 +63,24 @@ export class LocalTagsComponent {
     if (Utils.findIndexOf(array, object) === -1) {
       array.push(object);
     }
+  }
+
+  private checkLikedTracks() {
+    const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
+      this.multipleResults
+    );
+    const ids = spotifyTracks.map((track) => track.trackId);
+    const idChunks: string[][] = Utils.chunkArray(ids, 50);
+    let i = 0;
+    idChunks.forEach((idChunk) =>
+      this.spotifyService
+        .checkLikedTracks(idChunk.join(','))
+        .subscribe((areTracksLiked) =>
+          areTracksLiked.map((isTrackLiked) => {
+            spotifyTracks[i].liked = isTrackLiked;
+            i++;
+          })
+        )
+    );
   }
 }
