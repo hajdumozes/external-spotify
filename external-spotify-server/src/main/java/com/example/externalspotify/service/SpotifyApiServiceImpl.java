@@ -104,8 +104,7 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         SpotifyTrack spotifyTrack = new SpotifyTrack();
         spotifyTrack.setAlbum(track.getAlbum().getName());
         spotifyTrack.setAlbumId(track.getAlbum().getId());
-        String releaseDate = track.getAlbum().getReleaseDate();
-        String releaseYear = releaseDate.substring(0, releaseDate.indexOf("-"));
+        String releaseYear = getReleaseYear(track.getAlbum().getReleaseDate());
         spotifyTrack.setYear(Integer.valueOf(releaseYear));
         spotifyTrack.setTitle(track.getName());
         spotifyTrack.setTrackId(track.getId());
@@ -120,5 +119,17 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         spotifyArtist.setName(artist.getName());
         spotifyArtist.setId(artist.getId());
         return spotifyArtist;
+    }
+
+    private String getReleaseYear(String date) {
+        if (isFullDate(date)) {
+            return date.substring(0, date.indexOf("-"));
+        } else {
+            return date;
+        }
+    }
+
+    private boolean isFullDate(String date) {
+        return date.contains("-");
     }
 }
