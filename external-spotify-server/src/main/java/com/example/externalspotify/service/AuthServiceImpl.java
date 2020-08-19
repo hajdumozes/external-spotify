@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             CompletableFuture<URI> uri = spotifyApi
                     .authorizationCodeUri()
-                    .scope("user-library-modify user-follow-modify")
+                    .scope("user-library-modify user-follow-modify user-library-read")
                     .build()
                     .executeAsync();
             return uri.get().toString();

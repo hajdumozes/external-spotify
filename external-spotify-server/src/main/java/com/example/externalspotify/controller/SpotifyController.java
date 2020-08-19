@@ -1,6 +1,7 @@
 package com.example.externalspotify.controller;
 
 import com.example.externalspotify.config.UserCredentials;
+import com.example.externalspotify.dto.CheckedLikedTracksCredentialDto;
 import com.example.externalspotify.dto.SpotifyTracksCredentialDto;
 import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
@@ -50,6 +51,14 @@ public class SpotifyController {
         return ResponseEntity.ok(userCredentials);
     }
 
+    @GetMapping("/check-liked-tracks")
+    public ResponseEntity<CheckedLikedTracksCredentialDto> checkLikedTracks(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+        Boolean[] areTracksLiked = spotifyApiService.checkFollowedTracks(ids, accessToken);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        CheckedLikedTracksCredentialDto dto = mapCheckedLikedTracksToDto(areTracksLiked, userCredentials);
+        return ResponseEntity.ok(dto);
+    }
+
     @ExceptionHandler({SpotifyException.class})
     public ResponseEntity error(SpotifyException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -58,6 +67,13 @@ public class SpotifyController {
     private SpotifyTracksCredentialDto mapSpotifyTracksToDto(List<SpotifyTrack> tracks, UserCredentials userCredentials) {
         SpotifyTracksCredentialDto dto = new SpotifyTracksCredentialDto();
         dto.setTracks(tracks);
+        dto.setUserCredentials(userCredentials);
+        return dto;
+    }
+
+    private CheckedLikedTracksCredentialDto mapCheckedLikedTracksToDto(Boolean[] areTracksLiked, UserCredentials userCredentials) {
+        CheckedLikedTracksCredentialDto dto = new CheckedLikedTracksCredentialDto();
+        dto.setLiked(areTracksLiked);
         dto.setUserCredentials(userCredentials);
         return dto;
     }

@@ -11,4 +11,5 @@ public interface SpotifyApiService {
     void likeTrack(String ids, String token);
     void saveAlbum(String ids, String token);
     void followArtists(String ids, String token);
+    Boolean[] checkFollowedTracks(String ids, String token);
 }
