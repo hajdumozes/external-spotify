@@ -38,6 +38,7 @@ export class LocalTagsComponent {
   }
 
   public async handleTextDropped(text) {
+    debug('handleTextDropped', text);
     if (text.indexOf('http') === 0) {
       const tag = await this.id3TagParserService.parseUsingHttp(text);
       const tracks: SpotifyTrack[] = await this.spotifyService
@@ -50,6 +51,7 @@ export class LocalTagsComponent {
   }
 
   private distributeResults(tag: Id3Tag, tracks: SpotifyTrack[]) {
+    debug('Start distributing results', tracks);
     if (tracks.length === 1) {
       this.addIfNotPresent(this.exactMatches, tracks[0]);
     } else if (tracks.length > 1) {
@@ -68,6 +70,7 @@ export class LocalTagsComponent {
   }
 
   private checkLikedTracks() {
+    debug('Start checking liked tracks');
     const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
       this.multipleResults
     );
