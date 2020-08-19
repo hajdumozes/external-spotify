@@ -40,9 +40,11 @@ export class LocalTagsComponent {
   public async handleTextDropped(text) {
     if (text.indexOf('http') === 0) {
       const tag = await this.id3TagParserService.parseUsingHttp(text);
-      this.spotifyService.getTrackFromSpotify(tag).subscribe((tracks) => {
-        this.distributeResults(tag, tracks);
-      });
+      const tracks: SpotifyTrack[] = await this.spotifyService
+        .getTrackFromSpotify(tag)
+        .toPromise();
+      await this.distributeResults(tag, tracks);
+      this.checkLikedTracks();
     } else {
     }
   }
