@@ -15,7 +15,7 @@ import Utils from './../../../util/Utils';
         [icon]="faUserPlus"
         (click)="followArtists(tracks)"
         *ngIf="!loading"
-        [ngClass]="{ followed: followed }"
+        [ngClass]="{ followed: allFollowed(tracks) }"
       ></fa-icon>
       <mat-spinner
         [diameter]="17"
@@ -33,7 +33,6 @@ export class FollowArtistIconComponent {
   public faUserPlus = faUserPlus;
   @Input() tracks: SpotifyTrack[];
   public loading: boolean = false;
-  public followed: boolean = false;
 
   constructor(private spotifyService: SpotifyService) {}
 
@@ -49,8 +48,19 @@ export class FollowArtistIconComponent {
     idChunks.forEach((idChunk) =>
       this.spotifyService.followArtists(idChunk.join(',')).subscribe(() => {
         this.loading = false;
-        this.followed = true;
+        this.setArtistsFollowed(tracks);
       })
     );
+  }
+
+  public setArtistsFollowed(tracks: SpotifyTrack[]) {
+    tracks.forEach((track) => (track.artistsFollowed = true));
+  }
+
+  public allFollowed(tracks: SpotifyTrack[]) {
+    if (!Array.isArray(tracks)) {
+      tracks = [tracks];
+    }
+    return tracks.every((track) => track.artistsFollowed);
   }
 }

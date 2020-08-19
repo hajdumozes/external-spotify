@@ -14,7 +14,7 @@ import Utils from './../../../util/Utils';
         [icon]="faHeart"
         (click)="likeTracks(tracks)"
         *ngIf="!loading"
-        [ngClass]="{ liked: liked }"
+        [ngClass]="{ liked: allLiked(tracks) }"
       ></fa-icon>
       <mat-spinner
         [diameter]="17"
@@ -27,7 +27,6 @@ import Utils from './../../../util/Utils';
 })
 export class LikeIconComponent {
   public loading: boolean = false;
-  public liked: boolean = false;
   public faHeart = faHeart;
   @Input() public tracks: SpotifyTrack[];
   constructor(private spotifyService: SpotifyService) {}
@@ -42,8 +41,19 @@ export class LikeIconComponent {
     idChunks.forEach((idChunk) =>
       this.spotifyService.likeTracks(idChunk.join(',')).subscribe(() => {
         this.loading = false;
-        this.liked = true;
+        this.setTracksLiked(tracks);
       })
     );
+  }
+
+  public setTracksLiked(tracks: SpotifyTrack[]) {
+    tracks.forEach((track) => (track.liked = true));
+  }
+
+  public allLiked(tracks: SpotifyTrack[]) {
+    if (!Array.isArray(tracks)) {
+      tracks = [tracks];
+    }
+    return tracks.every((track) => track.liked);
   }
 }

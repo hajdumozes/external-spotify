@@ -7,7 +7,10 @@ export class SpotifyTrack {
     public trackId: string,
     public year: number,
     public artists: SpotifyArtist[],
-    public url: string
+    public url: string,
+    public liked: boolean = false,
+    public albumSaved: boolean = false,
+    public artistsFollowed: boolean = false
   ) {}
   get artistNames() {
     return this.artists.map((artist) => artist.name);

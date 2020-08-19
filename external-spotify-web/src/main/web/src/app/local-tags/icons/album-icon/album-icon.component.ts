@@ -13,8 +13,8 @@ import Utils from './../../../util/Utils';
         class="icon"
         [icon]="faVinyl"
         (click)="saveAlbums(tracks)"
+        [ngClass]="{ saved: allSaved(tracks) }"
         *ngIf="!loading"
-        [ngClass]="{ saved: saved }"
       ></fa-icon>
       <mat-spinner
         [diameter]="17"
@@ -28,7 +28,6 @@ import Utils from './../../../util/Utils';
 export class AlbumIconComponent {
   public faVinyl = faRecordVinyl;
   public loading: boolean = false;
-  public saved: boolean = false;
   @Input() tracks: SpotifyTrack[];
 
   constructor(private spotifyService: SpotifyService) {}
@@ -43,8 +42,19 @@ export class AlbumIconComponent {
     idChunks.forEach((idChunk) =>
       this.spotifyService.saveAlbums(idChunk.join(',')).subscribe(() => {
         this.loading = false;
-        this.saved = true;
+        this.setAlbumsSaved(tracks);
       })
     );
+  }
+
+  public setAlbumsSaved(tracks: SpotifyTrack[]) {
+    tracks.forEach((track) => (track.albumSaved = true));
+  }
+
+  public allSaved(tracks: SpotifyTrack[]) {
+    if (!Array.isArray(tracks)) {
+      tracks = [tracks];
+    }
+    return tracks.every((track) => track.albumSaved);
   }
 }
