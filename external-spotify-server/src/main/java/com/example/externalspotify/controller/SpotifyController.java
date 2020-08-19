@@ -7,6 +7,7 @@ import com.example.externalspotify.entity.SpotifyTrack;
 import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.service.AuthService;
 import com.example.externalspotify.service.SpotifyApiService;
+import com.example.externalspotify.entity.search.TrackSearchContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class SpotifyController {
 
     @PostMapping("/track")
     public ResponseEntity<SpotifyTracksCredentialDto> getFromSpotify(@RequestBody Id3Tag id3Tag, @RequestParam String accessToken, @RequestParam String refreshToken) {
-        List<SpotifyTrack> tracks = spotifyApiService.searchForTrack(id3Tag, accessToken);
+        List<SpotifyTrack> tracks = processSearch(id3Tag, accessToken);
         UserCredentials userCredentials = authService.refreshTokens(refreshToken);
         SpotifyTracksCredentialDto dto = mapSpotifyTracksToDto(tracks, userCredentials);
         return ResponseEntity.ok(dto);
@@ -59,5 +60,19 @@ public class SpotifyController {
         dto.setTracks(tracks);
         dto.setUserCredentials(userCredentials);
         return dto;
+    }
+
+    private List<SpotifyTrack> processSearch(Id3Tag id3Tag, String accessToken) {
+        List<SpotifyTrack> results = spotifyApiService.searchForTrack(id3Tag, TrackSearchContent.ALL, accessToken);
+        if (results.size() == 0) {
+            results = spotifyApiService.searchForTrack(id3Tag, TrackSearchContent.WITHOUT_YEAR, accessToken);
+        }
+        if (results.size() == 0) {
+            results = spotifyApiService.searchForTrack(id3Tag, TrackSearchContent.WITHOUT_YEAR_AND_ALBUM, accessToken);
+        }
+        if (results.size() == 0) {
+            results = spotifyApiService.searchForTrack(id3Tag, TrackSearchContent.WITHOUT_YEAR_AND_ARTIST, accessToken);
+        }
+        return results;
     }
 }

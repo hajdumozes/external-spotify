@@ -5,6 +5,8 @@ import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
 import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
+import com.example.externalspotify.entity.search.TrackSearchContent;
+import com.example.externalspotify.entity.search.TrackSearchQueryFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.enums.ModelObjectType;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -19,7 +21,6 @@ import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -32,10 +33,11 @@ import java.util.stream.Collectors;
 public class SpotifyApiServiceImpl implements SpotifyApiService {
 
     @Override
-    public List<SpotifyTrack> searchForTrack(Id3Tag id3Tag, String token) {
+    public List<SpotifyTrack> searchForTrack(Id3Tag id3Tag, TrackSearchContent trackSearchContent, String token) {
         SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         spotifyApi.setAccessToken(token);
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(buildQueryParams(id3Tag)).build();
+        String qParam = TrackSearchQueryFactory.getTrackSearchQuery(id3Tag, trackSearchContent);
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(qParam).build();
         try {
             Paging<Track> artistPaging = searchTracksRequest.execute();
             Track[] tracks = artistPaging.getItems();
@@ -93,11 +95,6 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         } catch (CancellationException e) {
             throw new SpotifyException("Async operation cancelled.");
         }
-    }
-
-    private String buildQueryParams(Id3Tag id3Tag) {
-        return MessageFormat.format("track: {0} album: {1} artist: {2} year: {3}",
-                id3Tag.getTitle(), id3Tag.getAlbum(), id3Tag.getArtist(), String.valueOf(id3Tag.getYear()));
     }
 
     private SpotifyTrack mapTrackToSpotifyTrack(Track track) {
