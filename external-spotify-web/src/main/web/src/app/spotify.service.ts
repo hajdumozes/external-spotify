@@ -78,4 +78,32 @@ export class SpotifyService {
         })
       );
   }
+
+  public checkSavedAlbums(ids: string) {
+    const params = new HttpParams().set('ids', ids);
+    return this.http
+      .get<CheckedLikedTracksCredential>('/check-saved-albums', { params })
+      .pipe(
+        map((response) => {
+          const liked = response.liked;
+          const credentials = response.userCredentials;
+          this.authService.saveUserCredentials(credentials);
+          return liked;
+        })
+      );
+  }
+
+  public checkFollowedArtists(ids: string) {
+    const params = new HttpParams().set('ids', ids);
+    return this.http
+      .get<CheckedLikedTracksCredential>('/check-followed-artists', { params })
+      .pipe(
+        map((response) => {
+          const liked = response.liked;
+          const credentials = response.userCredentials;
+          this.authService.saveUserCredentials(credentials);
+          return liked;
+        })
+      );
+  }
 }

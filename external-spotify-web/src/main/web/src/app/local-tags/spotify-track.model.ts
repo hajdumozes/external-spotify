@@ -9,10 +9,13 @@ export class SpotifyTrack {
     public artists: SpotifyArtist[],
     public url: string,
     public liked: boolean = false,
-    public albumSaved: boolean = false,
-    public artistsFollowed: boolean = false
+    public albumSaved: boolean = false
   ) {}
   get artistNames() {
     return this.artists.map((artist) => artist.name);
+  }
+
+  get artistsFollowed() {
+    return this.artists.every((artist) => artist.followed);
   }
 }

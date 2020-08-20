@@ -26,5 +26,13 @@
   "/check-liked-tracks": {
     "target": "http://localhost:8080/",
     "secure": false
+  },
+  "/check-saved-albums": {
+    "target": "http://localhost:8080/",
+    "secure": false
+  },
+  "/check-followed-artists": {
+    "target": "http://localhost:8080/",
+    "secure": false
   }
 }

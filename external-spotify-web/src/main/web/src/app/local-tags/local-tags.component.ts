@@ -1,3 +1,4 @@
+import { SpotifyArtist } from './spotify-artist.model';
 import { Id3Tag } from './id3-tag.model';
 import { SpotifyService } from './../spotify.service';
 import { SpotifyTrack } from './../local-tags/spotify-track.model';
@@ -35,6 +36,8 @@ export class LocalTagsComponent {
       await this.distributeResults(tag, tracks);
     }
     this.checkLikedTracks();
+    this.checkSavedAlbums();
+    this.checkFollowedArtists();
   }
 
   public async handleTextDropped(text) {
@@ -46,6 +49,8 @@ export class LocalTagsComponent {
         .toPromise();
       await this.distributeResults(tag, tracks);
       this.checkLikedTracks();
+      this.checkSavedAlbums();
+      this.checkFollowedArtists();
     } else {
     }
   }
@@ -83,6 +88,50 @@ export class LocalTagsComponent {
         .subscribe((areTracksLiked) =>
           areTracksLiked.map((isTrackLiked) => {
             spotifyTracks[i].liked = isTrackLiked;
+            i++;
+          })
+        )
+    );
+  }
+
+  private checkSavedAlbums() {
+    debug('Start checking saved albums');
+    const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
+      this.multipleResults
+    );
+    const ids = spotifyTracks.map((track) => track.albumId);
+    const idChunks: string[][] = Utils.chunkArray(ids, 50);
+    let i = 0;
+    idChunks.forEach((idChunk) =>
+      this.spotifyService
+        .checkSavedAlbums(idChunk.join(','))
+        .subscribe((areAlbumsSaved) =>
+          areAlbumsSaved.map((isAlbumSaved) => {
+            spotifyTracks[i].albumSaved = isAlbumSaved;
+            i++;
+          })
+        )
+    );
+  }
+
+  private checkFollowedArtists() {
+    debug('Start checking saved albums');
+    const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
+      this.multipleResults
+    );
+    const artists: SpotifyArtist[][] = spotifyTracks.map(
+      (track) => track.artists
+    );
+    const mergedArtists: SpotifyArtist[] = [].concat.apply([], artists);
+    const artistIds: string[] = mergedArtists.map((artist) => artist.id);
+    const idChunks: string[][] = Utils.chunkArray(artistIds, 50);
+    let i = 0;
+    idChunks.forEach((idChunk) =>
+      this.spotifyService
+        .checkSavedAlbums(idChunk.join(','))
+        .subscribe((areArtistsFollowed) =>
+          areArtistsFollowed.map((isArtistFollowed) => {
+            mergedArtists[i].followed = isArtistFollowed;
             i++;
           })
         )

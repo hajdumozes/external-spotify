@@ -54,7 +54,9 @@ export class FollowArtistIconComponent {
   }
 
   public setArtistsFollowed(tracks: SpotifyTrack[]) {
-    tracks.forEach((track) => (track.artistsFollowed = true));
+    tracks.forEach((track) =>
+      track.artists.forEach((artist) => (artist.followed = true))
+    );
   }
 
   public allFollowed(tracks: SpotifyTrack[]) {
