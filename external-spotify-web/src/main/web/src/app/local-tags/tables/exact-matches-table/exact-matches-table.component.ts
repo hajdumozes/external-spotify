@@ -17,25 +17,18 @@ import Utils from './../../../util/Utils';
         </tr>
       </thead>
       <tbody>
-        <tr
-          class="clickable-row"
-          *ngFor="let track of tracks; let i = index"
-          (click)="selectRow(track)"
-          [ngClass]="{ 'table-active': isActive(track) }"
-        >
-          <td>{{ track.title }}</td>
-          <td>{{ track.album }}</td>
-          <td>{{ track.artistNames.join(', ') }}</td>
-          <td><a href="{{ track.url }}" target="_blank">Link</a></td>
+        <tr>
+          <td>All Tracks</td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td>
-            <app-like-icon [tracks]="[tracks[i]]"></app-like-icon>
-            <app-album-icon [tracks]="[tracks[i]]"></app-album-icon>
-            <app-follow-artist-icon
-              [tracks]="[tracks[i]]"
-            ></app-follow-artist-icon>
+            <app-like-icon [tracks]="tracks"></app-like-icon>
+            <app-album-icon [tracks]="tracks"></app-album-icon>
+            <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
             <app-remove-icon
               [array]="tracks"
-              [items]="[tracks[i]]"
+              [items]="tracks"
             ></app-remove-icon>
           </td>
         </tr>
@@ -57,18 +50,25 @@ import Utils from './../../../util/Utils';
             ></app-remove-icon>
           </td>
         </tr>
-        <tr>
-          <td>All Tracks</td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr
+          class="clickable-row"
+          *ngFor="let track of tracks; let i = index"
+          (click)="selectRow(track)"
+          [ngClass]="{ 'table-active': isActive(track) }"
+        >
+          <td>{{ track.title }}</td>
+          <td>{{ track.album }}</td>
+          <td>{{ track.artistNames.join(', ') }}</td>
+          <td><a href="{{ track.url }}" target="_blank">Link</a></td>
           <td>
-            <app-like-icon [tracks]="tracks"></app-like-icon>
-            <app-album-icon [tracks]="tracks"></app-album-icon>
-            <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
+            <app-like-icon [tracks]="[tracks[i]]"></app-like-icon>
+            <app-album-icon [tracks]="[tracks[i]]"></app-album-icon>
+            <app-follow-artist-icon
+              [tracks]="[tracks[i]]"
+            ></app-follow-artist-icon>
             <app-remove-icon
               [array]="tracks"
-              [items]="tracks"
+              [items]="[tracks[i]]"
             ></app-remove-icon>
           </td>
         </tr>

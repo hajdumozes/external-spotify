@@ -16,21 +16,13 @@ import Utils from './../../../util/Utils';
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let tag of tags; let i = index"
-          class="clickable-row"
-          (click)="selectRow(tag)"
-          [ngClass]="{ 'table-active': isActive(tag) }"
-        >
-          <td>{{ tag.title }}</td>
-          <td>{{ tag.album }}</td>
-          <td>{{ tag.artist }}</td>
-          <td>{{ tag.year }}</td>
+        <tr>
+          <td>All Tags</td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td>
-            <app-remove-icon
-              [array]="tags"
-              [items]="[tags[i]]"
-            ></app-remove-icon>
+            <app-remove-icon [array]="tags" [items]="tags"></app-remove-icon>
           </td>
         </tr>
         <tr *ngIf="selectedTags.length > 0">
@@ -46,13 +38,21 @@ import Utils from './../../../util/Utils';
             ></app-remove-icon>
           </td>
         </tr>
-        <tr>
-          <td>All Tags</td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr
+          *ngFor="let tag of tags; let i = index"
+          class="clickable-row"
+          (click)="selectRow(tag)"
+          [ngClass]="{ 'table-active': isActive(tag) }"
+        >
+          <td>{{ tag.title }}</td>
+          <td>{{ tag.album }}</td>
+          <td>{{ tag.artist }}</td>
+          <td>{{ tag.year }}</td>
           <td>
-            <app-remove-icon [array]="tags" [items]="tags"></app-remove-icon>
+            <app-remove-icon
+              [array]="tags"
+              [items]="[tags[i]]"
+            ></app-remove-icon>
           </td>
         </tr>
       </tbody>
