@@ -1,10 +1,14 @@
 <div class="container" [ngClass]="{ overlay: loading }">
-  <mat-spinner
-    [diameter]="100"
-    color="primary"
-    *ngIf="loading"
-    class="overlay-spinner"
-  ></mat-spinner>
+  <div class="overlay-spinner" *ngIf="loading">
+    <mat-progress-spinner
+      [diameter]="100"
+      color="primary"
+      [value]="progressPercentage"
+    ></mat-progress-spinner>
+    <p class="text-center position-absolute mt-3">
+      {{ currentFileName }}
+    </p>
+  </div>
   <div class="center">
     <app-drag-and-drop-box
       (emitDropFiles)="handleFilesDropped($event)"

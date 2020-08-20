@@ -20,6 +20,8 @@ export class LocalTagsComponent {
   public multipleResults: SpotifyTrack[] = [];
   public noResults: Id3Tag[] = [];
   public loading: boolean = false;
+  public currentFileName: string = '';
+  public progressPercentage: number = 0;
 
   constructor(
     private id3TagParserService: Id3TagParserService,
@@ -29,7 +31,11 @@ export class LocalTagsComponent {
   public async handleFilesDropped(files: File[]) {
     debug('handleFilesDropped', files);
     this.loading = true;
+    this.progressPercentage = 0;
+    const chunkPercentage = 100 / files.length;
     for (const file of files) {
+      this.progressPercentage += chunkPercentage;
+      this.currentFileName = file.name;
       debug('Start parsing file %s', file.name);
       const tag = await this.id3TagParserService.parseFile(file);
       const tracks: SpotifyTrack[] = await this.spotifyService
