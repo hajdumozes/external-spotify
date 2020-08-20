@@ -1,4 +1,10 @@
 <div class="container" [ngClass]="{ overlay: loading }">
+  <mat-spinner
+    [diameter]="100"
+    color="primary"
+    *ngIf="loading"
+    class="overlay-spinner"
+  ></mat-spinner>
   <div class="center">
     <app-drag-and-drop-box
       (emitDropFiles)="handleFilesDropped($event)"
