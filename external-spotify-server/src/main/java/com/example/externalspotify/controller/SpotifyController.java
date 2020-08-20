@@ -1,7 +1,7 @@
 package com.example.externalspotify.controller;
 
 import com.example.externalspotify.config.UserCredentials;
-import com.example.externalspotify.dto.CheckedLikedTracksCredentialDto;
+import com.example.externalspotify.dto.CheckedTrackCredentialDto;
 import com.example.externalspotify.dto.SpotifyTracksCredentialDto;
 import com.example.externalspotify.entity.Id3Tag;
 import com.example.externalspotify.entity.SpotifyTrack;
@@ -52,10 +52,26 @@ public class SpotifyController {
     }
 
     @GetMapping("/check-liked-tracks")
-    public ResponseEntity<CheckedLikedTracksCredentialDto> checkLikedTracks(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+    public ResponseEntity<CheckedTrackCredentialDto> checkLikedTracks(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
         Boolean[] areTracksLiked = spotifyApiService.checkFollowedTracks(ids, accessToken);
         UserCredentials userCredentials = authService.refreshTokens(refreshToken);
-        CheckedLikedTracksCredentialDto dto = mapCheckedLikedTracksToDto(areTracksLiked, userCredentials);
+        CheckedTrackCredentialDto dto = mapCheckedLikedTracksToDto(areTracksLiked, userCredentials);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/check-saved-albums")
+    public ResponseEntity<CheckedTrackCredentialDto> checkSavedAlbums(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+        Boolean[] areTracksLiked = spotifyApiService.checkSavedAlbums(ids, accessToken);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        CheckedTrackCredentialDto dto = mapCheckedLikedTracksToDto(areTracksLiked, userCredentials);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/check-followed-artist")
+    public ResponseEntity<CheckedTrackCredentialDto> checkFollowedArtist(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
+        Boolean[] areTracksLiked = spotifyApiService.checkFollowedArtists(ids, accessToken);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        CheckedTrackCredentialDto dto = mapCheckedLikedTracksToDto(areTracksLiked, userCredentials);
         return ResponseEntity.ok(dto);
     }
 
@@ -71,8 +87,8 @@ public class SpotifyController {
         return dto;
     }
 
-    private CheckedLikedTracksCredentialDto mapCheckedLikedTracksToDto(Boolean[] areTracksLiked, UserCredentials userCredentials) {
-        CheckedLikedTracksCredentialDto dto = new CheckedLikedTracksCredentialDto();
+    private CheckedTrackCredentialDto mapCheckedLikedTracksToDto(Boolean[] areTracksLiked, UserCredentials userCredentials) {
+        CheckedTrackCredentialDto dto = new CheckedTrackCredentialDto();
         dto.setLiked(areTracksLiked);
         dto.setUserCredentials(userCredentials);
         return dto;

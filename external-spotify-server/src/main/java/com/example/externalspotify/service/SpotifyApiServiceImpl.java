@@ -13,7 +13,9 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.follow.CheckCurrentUserFollowsArtistsOrUsersRequest;
 import com.wrapper.spotify.requests.data.follow.FollowArtistsOrUsersRequest;
+import com.wrapper.spotify.requests.data.library.CheckUsersSavedAlbumsRequest;
 import com.wrapper.spotify.requests.data.library.CheckUsersSavedTracksRequest;
 import com.wrapper.spotify.requests.data.library.SaveAlbumsForCurrentUserRequest;
 import com.wrapper.spotify.requests.data.library.SaveTracksForUserRequest;
@@ -107,6 +109,41 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
                 .build();
         try {
             CompletableFuture<Boolean[]> booleansFuture = checkUsersSavedTracksRequest.executeAsync();
+            return booleansFuture.get();
+        } catch (CompletionException | InterruptedException | ExecutionException e) {
+            throw new SpotifyException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            throw new SpotifyException("Async operation cancelled.");
+        }
+    }
+
+    @Override
+    public Boolean[] checkSavedAlbums(String ids, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
+        CheckUsersSavedAlbumsRequest checkUsersSavedAlbumsRequest  = spotifyApi
+                .checkUsersSavedAlbums(ids)
+                .build();
+        try {
+            CompletableFuture<Boolean[]> booleansFuture = checkUsersSavedAlbumsRequest.executeAsync();
+            return booleansFuture.get();
+        } catch (CompletionException | InterruptedException | ExecutionException e) {
+            throw new SpotifyException(e.getCause().getMessage());
+        } catch (CancellationException e) {
+            throw new SpotifyException("Async operation cancelled.");
+        }
+    }
+
+    @Override
+    public Boolean[] checkFollowedArtists(String ids, String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
+        String[] array = ids.split(",");
+        CheckCurrentUserFollowsArtistsOrUsersRequest request  = spotifyApi
+                .checkCurrentUserFollowsArtistsOrUsers(ModelObjectType.ARTIST, array)
+                .build();
+        try {
+            CompletableFuture<Boolean[]> booleansFuture = request.executeAsync();
             return booleansFuture.get();
         } catch (CompletionException | InterruptedException | ExecutionException e) {
             throw new SpotifyException(e.getCause().getMessage());
