@@ -17,7 +17,7 @@ import Utils from './../../../util/Utils';
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr class="table-info">
           <td>All Tracks</td>
           <td></td>
           <td></td>
@@ -32,7 +32,7 @@ import Utils from './../../../util/Utils';
             ></app-remove-icon>
           </td>
         </tr>
-        <tr *ngIf="selectedTracks.length > 0">
+        <tr class="table-warning" *ngIf="selectedTracks.length > 0">
           <td>All Selected Tracks</td>
           <td></td>
           <td></td>
