@@ -1,4 +1,6 @@
-export class Id3Tag {
+import { UniqueObject } from './unique-object';
+
+export class Id3Tag implements UniqueObject {
   constructor(
     public album: string,
     public albumArtist: string,
@@ -7,4 +9,8 @@ export class Id3Tag {
     public year: number,
     public title: string
   ) {}
+
+  getId() {
+    return JSON.stringify(this);
+  }
 }

@@ -1,4 +1,4 @@
-import * as deepEqual from 'deep-equal';
+import { UniqueObject } from '../local-tags/unique-object';
 
 export default class Utils {
   static chunkArray(array: any[], chunkSize: number): any[][] {
@@ -9,7 +9,7 @@ export default class Utils {
     return results;
   }
 
-  static findIndexOf(array: any[], object: any): number {
-    return array.findIndex((item) => deepEqual(item, object));
+  static findIndexOf(array: UniqueObject[], object: UniqueObject): number {
+    return array.findIndex((item) => item.getId() === object.getId());
   }
 }

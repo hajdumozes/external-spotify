@@ -1,5 +1,6 @@
 import { SpotifyArtist } from './spotify-artist.model';
-export class SpotifyTrack {
+import { UniqueObject } from './unique-object';
+export class SpotifyTrack implements UniqueObject {
   constructor(
     public album: string,
     public albumId: string,
@@ -17,5 +18,9 @@ export class SpotifyTrack {
 
   get artistsFollowed() {
     return this.artists.every((artist) => artist.followed);
+  }
+
+  getId() {
+    return this.trackId;
   }
 }
