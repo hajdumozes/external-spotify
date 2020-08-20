@@ -19,6 +19,7 @@ export class LocalTagsComponent {
   public exactMatches: SpotifyTrack[] = [];
   public multipleResults: SpotifyTrack[] = [];
   public noResults: Id3Tag[] = [];
+  public loading: boolean = false;
 
   constructor(
     private id3TagParserService: Id3TagParserService,
@@ -27,6 +28,7 @@ export class LocalTagsComponent {
 
   public async handleFilesDropped(files: File[]) {
     debug('handleFilesDropped', files);
+    this.loading = true;
     for (const file of files) {
       debug('Start parsing file %s', file.name);
       const tag = await this.id3TagParserService.parseFile(file);
@@ -38,6 +40,7 @@ export class LocalTagsComponent {
     this.checkLikedTracks();
     this.checkSavedAlbums();
     this.checkFollowedArtists();
+    this.loading = false;
   }
 
   public async handleTextDropped(text) {
