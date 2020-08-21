@@ -22,9 +22,13 @@
       </p>
     </app-drag-and-drop-box>
 
-    <app-exact-matches-table [tracks]="exactMatches"></app-exact-matches-table>
+    <app-exact-matches-table
+      [tracks]="exactMatches"
+      [playlists]="playlists"
+    ></app-exact-matches-table>
     <app-multiple-results-table
       [tracks]="multipleResults"
+      [playlists]="playlists"
     ></app-multiple-results-table>
     <app-no-results-table [tags]="noResults"></app-no-results-table>
   </div>

@@ -1,3 +1,4 @@
+import { SpotifyPlaylist } from './../../spotify-playlist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input } from '@angular/core';
 import Utils from './../../../util/Utils';
@@ -26,7 +27,10 @@ import Utils from './../../../util/Utils';
             <app-like-icon [tracks]="tracks"></app-like-icon>
             <app-album-icon [tracks]="tracks"></app-album-icon>
             <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
-            <app-playlist-icon [tracks]="tracks"></app-playlist-icon>
+            <app-playlist-icon
+              [tracks]="tracks"
+              [playlists]="playlists"
+            ></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="tracks"
@@ -44,7 +48,10 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="selectedTracks"
             ></app-follow-artist-icon>
-            <app-playlist-icon [tracks]="selectedTracks"></app-playlist-icon>
+            <app-playlist-icon
+              [tracks]="selectedTracks"
+              [playlists]="playlists"
+            ></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="selectedTracks"
@@ -68,7 +75,10 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="[tracks[i]]"
             ></app-follow-artist-icon>
-            <app-playlist-icon [tracks]="[tracks[i]]"></app-playlist-icon>
+            <app-playlist-icon
+              [tracks]="[tracks[i]]"
+              [playlists]="playlists"
+            ></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="tracks[i]"
@@ -85,6 +95,7 @@ import Utils from './../../../util/Utils';
 })
 export class MultipleResultsTableComponent {
   @Input() tracks: SpotifyTrack[];
+  @Input() playlists: SpotifyPlaylist[];
   selectedTracks: SpotifyTrack[] = [];
 
   constructor() {}
