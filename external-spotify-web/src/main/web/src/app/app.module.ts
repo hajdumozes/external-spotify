@@ -1,3 +1,4 @@
+import { MaterialModule } from './material/material.module';
 import { DragAndDropBoxComponent } from './local-tags/drag-and-drop-box/drag-and-drop-box.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -41,7 +42,7 @@ import { PlaylistIconComponent } from './local-tags/icons/playlist-icon/playlist
     HttpClientModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule,
+    MaterialModule,
   ],
   providers: [
     {
