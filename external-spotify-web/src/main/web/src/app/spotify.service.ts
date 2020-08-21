@@ -114,17 +114,15 @@ export class SpotifyService {
   }
 
   public getUserPlaylists() {
-    return this.http
-      .get<SpotifyPlaylistsCredential>('/get-user-playlists')
-      .pipe(
-        map((response) => {
-          const playlists = response.playlists;
-          const credentials = response.userCredentials;
-          this.authService.saveUserCredentials(credentials);
-          return playlists.map(
-            (playlist) => new SpotifyPlaylist(playlist.id, playlist.name)
-          );
-        })
-      );
+    return this.http.get<SpotifyPlaylistsCredential>('/user-playlists').pipe(
+      map((response) => {
+        const playlists = response.playlists;
+        const credentials = response.userCredentials;
+        this.authService.saveUserCredentials(credentials);
+        return playlists.map(
+          (playlist) => new SpotifyPlaylist(playlist.id, playlist.name)
+        );
+      })
+    );
   }
 }

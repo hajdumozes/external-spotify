@@ -80,7 +80,7 @@ public class SpotifyController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/get-user-playlists")
+    @GetMapping("/user-playlists")
     public ResponseEntity<SpotifyPlayListCredentialDto> getUserPlaylists(@RequestParam String accessToken, @RequestParam String refreshToken) {
         List<SpotifyPlaylist> playlists = spotifyPlaylistService.getUserPlaylists(accessToken);
         UserCredentials userCredentials = authService.refreshTokens(refreshToken);
