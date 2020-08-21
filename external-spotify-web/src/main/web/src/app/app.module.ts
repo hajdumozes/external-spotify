@@ -10,7 +10,6 @@ import { SpotifyUriCallbackComponent } from './spotify-uri-callback/spotify-uri-
 import { LocalTagsComponent } from './local-tags/local-tags.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
 import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
 import { AlbumIconComponent } from './local-tags/icons/album-icon/album-icon.component';
@@ -19,7 +18,10 @@ import { ExactMatchesTableComponent } from './local-tags/tables/exact-matches-ta
 import { MultipleResultsTableComponent } from './local-tags/tables/multiple-results-table/multiple-results-table.component';
 import { NoResultsTableComponent } from './local-tags/tables/no-results-table/no-results-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { PlaylistIconComponent } from './local-tags/icons/playlist-icon/playlist-icon.component';
+import {
+  PlaylistIconComponent,
+  PlaylistModal,
+} from './local-tags/icons/playlist-icon/playlist-icon.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { PlaylistIconComponent } from './local-tags/icons/playlist-icon/playlist
     MultipleResultsTableComponent,
     NoResultsTableComponent,
     PlaylistIconComponent,
+    PlaylistModal,
   ],
   imports: [
     BrowserModule,
