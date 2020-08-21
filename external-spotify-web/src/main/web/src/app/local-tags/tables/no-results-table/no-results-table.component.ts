@@ -25,7 +25,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon [array]="tags" [items]="tags"></app-remove-icon>
           </td>
         </tr>
-        <tr class="table-warning" *ngIf="selectedTags.length > 0">
+        <tr class="table-warning">
           <td>All Selected Tags</td>
           <td></td>
           <td></td>

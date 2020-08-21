@@ -32,7 +32,7 @@ import Utils from './../../../util/Utils';
             ></app-remove-icon>
           </td>
         </tr>
-        <tr class="table-warning" *ngIf="selectedTracks.length > 0">
+        <tr class="table-warning">
           <td>All Selected Tracks</td>
           <td></td>
           <td></td>
