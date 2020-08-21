@@ -1,16 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Utils from './../../../util/Utils';
 
 @Component({
   selector: 'app-remove-icon',
   template: `
-    <fa-icon
-      title="Remove from list"
-      class="icon"
-      [icon]="faTimes"
-      (click)="removeMultipleFromList(array, items)"
-    ></fa-icon>
+    <span>
+      <button mat-icon-button (click)="removeMultipleFromList(array, items)">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </span>
   `,
   styleUrls: [
     './remove-icon.component.css',
@@ -20,7 +18,6 @@ import Utils from './../../../util/Utils';
 export class RemoveIconComponent {
   @Input() array: any[];
   @Input() items: any[];
-  faTimes = faTimes;
   @Output() public clearSelectedTagsEvent = new EventEmitter<void>();
 
   constructor() {}

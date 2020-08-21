@@ -1,6 +1,5 @@
 import { SpotifyService } from './../../../spotify.service';
 import { Component, Input } from '@angular/core';
-import { faRecordVinyl } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyTrack } from '../../spotify-track.model';
 import Utils from './../../../util/Utils';
 
@@ -8,26 +7,14 @@ import Utils from './../../../util/Utils';
   selector: 'app-album-icon',
   template: `
     <span>
-      <fa-icon
-        title="Save album to your library"
-        class="icon"
-        [icon]="faVinyl"
-        (click)="saveAlbums(tracks)"
-        [ngClass]="{ saved: allSaved(tracks) }"
-        *ngIf="!loading"
-      ></fa-icon>
-      <mat-spinner
-        [diameter]="17"
-        color="primary"
-        *ngIf="loading"
-      ></mat-spinner>
+      <button mat-icon-button (click)="saveAlbums(tracks)">
+        <mat-icon [ngClass]="{ saved: allSaved(tracks) }">album</mat-icon>
+      </button>
     </span>
   `,
   styleUrls: ['./album-icon.component.css', './../../local-tags.component.css'],
 })
 export class AlbumIconComponent {
-  public faVinyl = faRecordVinyl;
-  public loading: boolean = false;
   @Input() tracks: SpotifyTrack[];
 
   constructor(private spotifyService: SpotifyService) {}
@@ -36,12 +23,10 @@ export class AlbumIconComponent {
     if (!Array.isArray(tracks)) {
       tracks = [tracks];
     }
-    this.loading = true;
     const ids: string[] = tracks.map((track) => track.albumId);
     const idChunks: string[][] = Utils.chunkArray(ids, 50);
     idChunks.forEach((idChunk) =>
       this.spotifyService.saveAlbums(idChunk.join(',')).subscribe(() => {
-        this.loading = false;
         this.setAlbumsSaved(tracks);
       })
     );

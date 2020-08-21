@@ -2,7 +2,6 @@ import { SpotifyService } from './../../../spotify.service';
 import { SpotifyPlaylist } from './../../spotify-playlist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input, Inject } from '@angular/core';
-import { faListUl } from '@fortawesome/free-solid-svg-icons';
 import {
   MatDialog,
   MatDialogRef,
@@ -28,7 +27,6 @@ interface PlaylistModalData {
   ],
 })
 export class PlaylistIconComponent {
-  faListUl = faListUl;
   @Input() tracks: SpotifyTrack[];
   @Input() playlists: SpotifyPlaylist[];
 

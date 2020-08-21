@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpotifyUriCallbackComponent } from './spotify-uri-callback/spotify-uri-callback.component';
 import { LocalTagsComponent } from './local-tags/local-tags.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LikeIconComponent } from './local-tags/icons/like-icon/like-icon.component';
 import { RemoveIconComponent } from './local-tags/icons/remove-icon/remove-icon.component';
@@ -43,7 +42,6 @@ import {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FontAwesomeModule,
     BrowserAnimationsModule,
     MaterialModule,
   ],
