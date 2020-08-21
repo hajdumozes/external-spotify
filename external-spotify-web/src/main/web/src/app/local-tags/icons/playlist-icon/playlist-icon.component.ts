@@ -35,6 +35,7 @@ export class PlaylistIconComponent {
 
   openDialog() {
     const dialogRef = this.dialog.open(PlaylistModal, {
+      width: '350px',
       data: { tracks: this.tracks, playlists: this.playlists },
     });
 
