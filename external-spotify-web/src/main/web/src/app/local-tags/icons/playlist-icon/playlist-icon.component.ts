@@ -18,7 +18,6 @@ interface PlaylistModalData {
   selector: 'app-playlist-icon',
   template: `
     <button mat-icon-button (click)="openDialog()" matTooltip="Open playlists">
-      >
       <mat-icon>playlist_add</mat-icon>
     </button>
   `,
