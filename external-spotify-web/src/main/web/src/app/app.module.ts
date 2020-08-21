@@ -18,6 +18,7 @@ import { ExactMatchesTableComponent } from './local-tags/tables/exact-matches-ta
 import { MultipleResultsTableComponent } from './local-tags/tables/multiple-results-table/multiple-results-table.component';
 import { NoResultsTableComponent } from './local-tags/tables/no-results-table/no-results-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { PlaylistIconComponent } from './local-tags/icons/playlist-icon/playlist-icon.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     ExactMatchesTableComponent,
     MultipleResultsTableComponent,
     NoResultsTableComponent,
+    PlaylistIconComponent,
   ],
   imports: [
     BrowserModule,

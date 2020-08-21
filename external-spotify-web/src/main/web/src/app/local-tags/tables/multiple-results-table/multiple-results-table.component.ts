@@ -26,6 +26,7 @@ import Utils from './../../../util/Utils';
             <app-like-icon [tracks]="tracks"></app-like-icon>
             <app-album-icon [tracks]="tracks"></app-album-icon>
             <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
+            <app-playlist-icon [tracks]="tracks"></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="tracks"
@@ -43,6 +44,7 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="selectedTracks"
             ></app-follow-artist-icon>
+            <app-playlist-icon [tracks]="selectedTracks"></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="selectedTracks"
@@ -66,6 +68,7 @@ import Utils from './../../../util/Utils';
             <app-follow-artist-icon
               [tracks]="[tracks[i]]"
             ></app-follow-artist-icon>
+            <app-playlist-icon [tracks]="[tracks[i]]"></app-playlist-icon>
             <app-remove-icon
               [array]="tracks"
               [items]="tracks[i]"
