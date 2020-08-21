@@ -43,7 +43,8 @@ export class SpotifyService {
               track.trackId,
               track.year,
               track.artists,
-              track.url
+              track.url,
+              track.uri
             )
         );
       })
@@ -125,5 +126,14 @@ export class SpotifyService {
         );
       })
     );
+  }
+
+  public addToPlaylist(playlistId: string, trackIds: string) {
+    const params = new HttpParams()
+      .set('playlistId', playlistId)
+      .set('trackIds', trackIds);
+    return this.http
+      .get<AuthResponseData>('/add-to-playlist', { params })
+      .pipe(tap((authResp) => this.authService.saveUserCredentials(authResp)));
   }
 }

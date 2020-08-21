@@ -88,6 +88,17 @@ public class SpotifyController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/add-to-playlist")
+    public ResponseEntity<UserCredentials> addToPlaylist(
+            @RequestParam String playlistId,
+            @RequestParam String trackIds,
+            @RequestParam String accessToken,
+            @RequestParam String refreshToken) {
+        spotifyPlaylistService.addToPlaylist(playlistId, trackIds, accessToken);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        return ResponseEntity.ok(userCredentials);
+    }
+
     @ExceptionHandler({SpotifyException.class})
     public ResponseEntity error(SpotifyException e) {
         return ResponseEntity.badRequest().body(e.getMessage());

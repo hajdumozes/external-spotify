@@ -13,4 +13,5 @@ public class SpotifyTrack {
     private int year;
     private List<SpotifyArtist> artists;
     private String url;
+    private String uri;
 }

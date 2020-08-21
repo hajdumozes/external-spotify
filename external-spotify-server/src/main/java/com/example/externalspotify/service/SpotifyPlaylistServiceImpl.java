@@ -5,8 +5,10 @@ import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.spotifyapi.SpotifyApiFactory;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.special.SnapshotResult;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
+import com.wrapper.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,19 @@ public class SpotifyPlaylistServiceImpl implements SpotifyPlaylistService {
             Paging<PlaylistSimplified> paging = request.execute();
             PlaylistSimplified[] playlists = paging.getItems();
             return Arrays.stream(playlists).map(this::mapToSpotifyPlaylist).collect(Collectors.toList());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new SpotifyException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void addToPlaylist(String playlistId, String trackIds,String token) {
+        SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
+        spotifyApi.setAccessToken(token);
+        String[] array = trackIds.split(",");
+        AddItemsToPlaylistRequest request = spotifyApi.addItemsToPlaylist(playlistId, array).build();
+        try {
+            request.execute();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyException(e.getMessage());
         }

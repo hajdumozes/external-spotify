@@ -1,3 +1,4 @@
+import { SpotifyService } from './../../../spotify.service';
 import { SpotifyPlaylist } from './../../spotify-playlist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input, Inject } from '@angular/core';
@@ -52,7 +53,8 @@ export class PlaylistModal {
   public selectedPlaylists: SpotifyPlaylist[] = [];
   constructor(
     public dialogRef: MatDialogRef<PlaylistIconComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PlaylistModalData
+    @Inject(MAT_DIALOG_DATA) public data: PlaylistModalData,
+    private spotifyService: SpotifyService
   ) {}
 
   isActive(playlist: SpotifyPlaylist) {
@@ -69,7 +71,20 @@ export class PlaylistModal {
     }
   }
 
-  onAdd(playlists: SpotifyPlaylist[]) {
-    this.dialogRef.close();
+  async onAdd(playlists: SpotifyPlaylist[]) {
+    if (!Array.isArray(this.data.tracks)) {
+      this.data.tracks = [this.data.tracks];
+    }
+    const ids: string[] = this.data.tracks.map((track) => track.uri);
+    const idChunks: string[][] = Utils.chunkArray(ids, 50);
+    playlists.forEach((playlist) => {
+      idChunks.forEach(
+        async (idChunk) =>
+          await this.spotifyService
+            .addToPlaylist(playlist.id, idChunk.join(','))
+            .toPromise()
+      );
+      this.dialogRef.close();
+    });
   }
 }

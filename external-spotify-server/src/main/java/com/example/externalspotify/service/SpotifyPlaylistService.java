@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SpotifyPlaylistService {
     List<SpotifyPlaylist> getUserPlaylists(String token);
+    void addToPlaylist(String playlistId, String trackIds,String token);
 }

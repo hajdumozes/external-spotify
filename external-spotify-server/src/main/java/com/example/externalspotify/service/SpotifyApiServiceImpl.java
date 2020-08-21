@@ -163,6 +163,7 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         List<SpotifyArtist> artists = Arrays.stream(track.getArtists()).map(this::mapArtistToSpotifyArtist).collect(Collectors.toList());
         spotifyTrack.setArtists(artists);
         spotifyTrack.setUrl(track.getExternalUrls().getExternalUrls().get("spotify"));
+        spotifyTrack.setUri(track.getUri());
         return spotifyTrack;
     }
 
