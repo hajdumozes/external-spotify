@@ -4,6 +4,7 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>Url</th>
       </tr>
     </thead>
     <tbody>
@@ -14,6 +15,7 @@
         [ngClass]="{ 'table-active': isActive(playlist) }"
       >
         <td>{{ playlist.name }}</td>
+        <td><a href="{{ playlist.url }}" target="_blank">Link</a></td>
       </tr>
     </tbody>
   </table>

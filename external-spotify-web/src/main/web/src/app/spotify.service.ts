@@ -120,7 +120,8 @@ export class SpotifyService {
         const credentials = response.userCredentials;
         this.authService.saveUserCredentials(credentials);
         return playlists.map(
-          (playlist) => new SpotifyPlaylist(playlist.id, playlist.name)
+          (playlist) =>
+            new SpotifyPlaylist(playlist.id, playlist.name, playlist.url)
         );
       })
     );

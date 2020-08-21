@@ -37,6 +37,7 @@ public class SpotifyPlaylistServiceImpl implements SpotifyPlaylistService {
         SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist();
         spotifyPlaylist.setId(playlistSimplified.getId());
         spotifyPlaylist.setName(playlistSimplified.getName());
+        spotifyPlaylist.setUrl(playlistSimplified.getExternalUrls().getExternalUrls().get("spotify"));
         return spotifyPlaylist;
     }
 }
