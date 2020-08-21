@@ -1,3 +1,4 @@
+import { SpotifyPlaylist } from './local-tags/spotify-playlist.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -14,6 +15,11 @@ interface SpotifyTracksCredential {
 interface CheckedLikedTracksCredential {
   userCredentials: AuthResponseData;
   liked: boolean[];
+}
+
+interface SpotifyPlaylistsCredential {
+  userCredentials: AuthResponseData;
+  playlists: SpotifyPlaylist[];
 }
 
 @Injectable({
@@ -103,6 +109,21 @@ export class SpotifyService {
           const credentials = response.userCredentials;
           this.authService.saveUserCredentials(credentials);
           return liked;
+        })
+      );
+  }
+
+  public getUserPlaylists() {
+    return this.http
+      .get<SpotifyPlaylistsCredential>('/get-user-playlists')
+      .pipe(
+        map((response) => {
+          const playlists = response.playlists;
+          const credentials = response.userCredentials;
+          this.authService.saveUserCredentials(credentials);
+          return playlists.map(
+            (playlist) => new SpotifyPlaylist(playlist.id, playlist.name)
+          );
         })
       );
   }
