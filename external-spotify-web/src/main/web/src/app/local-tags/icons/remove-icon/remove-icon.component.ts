@@ -5,7 +5,11 @@ import Utils from './../../../util/Utils';
   selector: 'app-remove-icon',
   template: `
     <span>
-      <button mat-icon-button (click)="removeMultipleFromList(array, items)">
+      <button
+        mat-icon-button
+        (click)="removeMultipleFromList(array, items)"
+        matTooltip="Remove from list"
+      >
         <mat-icon>clear</mat-icon>
       </button>
     </span>

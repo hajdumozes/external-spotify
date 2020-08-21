@@ -7,7 +7,11 @@ import Utils from './../../../util/Utils';
   selector: 'app-album-icon',
   template: `
     <span>
-      <button mat-icon-button (click)="saveAlbums(tracks)">
+      <button
+        mat-icon-button
+        (click)="saveAlbums(tracks)"
+        matTooltip="Save album to your library"
+      >
         <mat-icon [ngClass]="{ saved: allSaved(tracks) }">album</mat-icon>
       </button>
     </span>

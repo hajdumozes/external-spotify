@@ -8,7 +8,11 @@ import Utils from './../../../util/Utils';
   selector: 'app-follow-artist-icon',
   template: `
     <span>
-      <button mat-icon-button (click)="followArtists(tracks)">
+      <button
+        mat-icon-button
+        (click)="followArtists(tracks)"
+        matTooltip="Follow artists of track"
+      >
         <mat-icon [ngClass]="{ followed: allFollowed(tracks) }"
           >person_add_alt_1</mat-icon
         >

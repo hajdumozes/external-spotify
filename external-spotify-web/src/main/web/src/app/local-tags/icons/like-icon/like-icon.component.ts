@@ -7,7 +7,11 @@ import Utils from './../../../util/Utils';
   selector: 'app-like-icon',
   template: `
     <span>
-      <button mat-icon-button (click)="likeTracks(tracks)">
+      <button
+        mat-icon-button
+        (click)="likeTracks(tracks)"
+        matTooltip="Save to your liked songs"
+      >
         <mat-icon [ngClass]="{ liked: allLiked(tracks) }">favorite</mat-icon>
       </button>
     </span>
