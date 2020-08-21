@@ -68,4 +68,8 @@ export class PlaylistModal {
       this.selectedPlaylists.push(playlist);
     }
   }
+
+  onAdd(playlists: SpotifyPlaylist[]) {
+    this.dialogRef.close();
+  }
 }
