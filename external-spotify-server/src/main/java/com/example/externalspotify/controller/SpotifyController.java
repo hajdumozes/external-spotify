@@ -72,7 +72,7 @@ public class SpotifyController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/check-followed-artist")
+    @GetMapping("/check-followed-artists")
     public ResponseEntity<CheckedTrackCredentialDto> checkFollowedArtist(@RequestParam String ids, @RequestParam String accessToken, @RequestParam String refreshToken) {
         Boolean[] areTracksLiked = spotifyApiService.checkFollowedArtists(ids, accessToken);
         UserCredentials userCredentials = authService.refreshTokens(refreshToken);

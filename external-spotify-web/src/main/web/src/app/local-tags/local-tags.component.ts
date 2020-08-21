@@ -130,7 +130,7 @@ export class LocalTagsComponent implements OnInit {
   }
 
   private checkFollowedArtists() {
-    debug('Start checking saved albums');
+    debug('Start checking followed artists');
     const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
       this.multipleResults
     );
@@ -143,7 +143,7 @@ export class LocalTagsComponent implements OnInit {
     let i = 0;
     idChunks.forEach((idChunk) =>
       this.spotifyService
-        .checkSavedAlbums(idChunk.join(','))
+        .checkFollowedArtists(idChunk.join(','))
         .subscribe((areArtistsFollowed) =>
           areArtistsFollowed.map((isArtistFollowed) => {
             mergedArtists[i].followed = isArtistFollowed;
