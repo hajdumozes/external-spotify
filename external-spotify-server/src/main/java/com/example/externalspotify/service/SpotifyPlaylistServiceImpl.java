@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class SpotifyPlaylistServiceImpl implements SpotifyPlaylistService {
 
+    @Override
     public List<SpotifyPlaylist> getUserPlaylists(String token) {
         SpotifyApi spotifyApi = SpotifyApiFactory.createDefault();
         spotifyApi.setAccessToken(token);

@@ -2,13 +2,16 @@ package com.example.externalspotify.controller;
 
 import com.example.externalspotify.config.UserCredentials;
 import com.example.externalspotify.dto.CheckedTrackCredentialDto;
+import com.example.externalspotify.dto.SpotifyPlayListCredentialDto;
 import com.example.externalspotify.dto.SpotifyTracksCredentialDto;
 import com.example.externalspotify.entity.Id3Tag;
+import com.example.externalspotify.entity.SpotifyPlaylist;
 import com.example.externalspotify.entity.SpotifyTrack;
 import com.example.externalspotify.exception.SpotifyException;
 import com.example.externalspotify.service.AuthService;
 import com.example.externalspotify.service.SpotifyApiService;
 import com.example.externalspotify.entity.search.TrackSearchContent;
+import com.example.externalspotify.service.SpotifyPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ import java.util.List;
 public class SpotifyController {
     @Autowired
     private SpotifyApiService spotifyApiService;
+    @Autowired
+    private SpotifyPlaylistService spotifyPlaylistService;
     @Autowired
     private AuthService authService;
 
@@ -75,6 +80,14 @@ public class SpotifyController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/get-user-playlists")
+    public ResponseEntity<SpotifyPlayListCredentialDto> getUserPlaylists(@RequestParam String accessToken, @RequestParam String refreshToken) {
+        List<SpotifyPlaylist> playlists = spotifyPlaylistService.getUserPlaylists(accessToken);
+        UserCredentials userCredentials = authService.refreshTokens(refreshToken);
+        SpotifyPlayListCredentialDto dto = mapSpotifyPlayListsToDto(playlists, userCredentials);
+        return ResponseEntity.ok(dto);
+    }
+
     @ExceptionHandler({SpotifyException.class})
     public ResponseEntity error(SpotifyException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -90,6 +103,13 @@ public class SpotifyController {
     private CheckedTrackCredentialDto mapCheckedLikedTracksToDto(Boolean[] areTracksLiked, UserCredentials userCredentials) {
         CheckedTrackCredentialDto dto = new CheckedTrackCredentialDto();
         dto.setLiked(areTracksLiked);
+        dto.setUserCredentials(userCredentials);
+        return dto;
+    }
+
+    private SpotifyPlayListCredentialDto mapSpotifyPlayListsToDto(List<SpotifyPlaylist> playlists, UserCredentials userCredentials) {
+        SpotifyPlayListCredentialDto dto = new SpotifyPlayListCredentialDto();
+        dto.setPlaylists(playlists);
         dto.setUserCredentials(userCredentials);
         return dto;
     }
