@@ -1,3 +1,4 @@
+import { ObjectMapperService } from './../object-mapper.service';
 import { User } from './user.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -10,7 +11,7 @@ export interface AuthResponseData {
   expiresIn: number;
 }
 
-interface AuthResponseDataStorage {
+export interface AuthResponseDataStorage {
   _accessToken: string;
   _refreshToken: string;
   _tokenExpirationDate: Date;
@@ -22,7 +23,10 @@ interface AuthResponseDataStorage {
 export class AuthService {
   user = new BehaviorSubject<User>(this.getUserFromStorage());
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private objectMapperService: ObjectMapperService
+  ) {}
 
   login() {
     this.getUri().subscribe((url) => {
@@ -48,13 +52,9 @@ export class AuthService {
     const userObject: AuthResponseDataStorage = JSON.parse(
       localStorage.getItem('user')
     );
-    if (userObject) {
-      return new User(
-        userObject._accessToken,
-        userObject._refreshToken,
-        userObject._tokenExpirationDate
-      );
-    }
+    return userObject
+      ? this.objectMapperService.mapStorageDataToUser(userObject)
+      : null;
   }
 
   public saveUserCredentials(auth: AuthResponseData) {

@@ -1,3 +1,4 @@
+import { ObjectMapperService } from './object-mapper.service';
 import { SpotifyPlaylist } from './local-tags/spotify-playlist.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -26,7 +27,11 @@ interface SpotifyPlaylistsCredential {
   providedIn: 'root',
 })
 export class SpotifyService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private objectMapperService: ObjectMapperService
+  ) {}
 
   public getTrackFromSpotify(id3Tag: Id3Tag) {
     return this.http.post<SpotifyTracksCredential>('/track', id3Tag).pipe(
@@ -34,18 +39,8 @@ export class SpotifyService {
         const tracks = response.tracks;
         const credentials = response.userCredentials;
         this.authService.saveUserCredentials(credentials);
-        return tracks.map(
-          (track) =>
-            new SpotifyTrack(
-              track.album,
-              track.albumId,
-              track.title,
-              track.trackId,
-              track.year,
-              track.artists,
-              track.url,
-              track.uri
-            )
+        return tracks.map((track) =>
+          this.objectMapperService.mapToSpotifyTrack(track)
         );
       })
     );

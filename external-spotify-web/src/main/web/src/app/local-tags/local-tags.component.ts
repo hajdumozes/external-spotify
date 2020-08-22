@@ -1,9 +1,11 @@
+import { TrackService } from './track.service';
+import { ObjectMapperService } from './../object-mapper.service';
+import { SpotifyTrack } from './spotify-track.model';
 import { SpotifyPlaylist } from './spotify-playlist.model';
 import { SpotifyArtist } from './spotify-artist.model';
 import { Id3Tag } from './id3-tag.model';
 import { SpotifyService } from './../spotify.service';
-import { SpotifyTrack } from './../local-tags/spotify-track.model';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Id3TagParserService } from '../id3-tag-parser.service';
 import * as createDebug from 'debug';
@@ -16,19 +18,28 @@ const debug = createDebug('audio-tag-analyzer:local-tags-component');
   templateUrl: './local-tags.component.html',
   styleUrls: ['./local-tags.component.css'],
 })
-export class LocalTagsComponent {
-  public exactMatches: SpotifyTrack[] = [];
-  public multipleResults: SpotifyTrack[] = [];
-  public noResults: Id3Tag[] = [];
+export class LocalTagsComponent implements OnInit {
+  public exactMatches: SpotifyTrack[];
+  public multipleResults: SpotifyTrack[];
+  public noResults: Id3Tag[];
   public loading: boolean = false;
   public currentFileName: string = '';
   public progressPercentage: number = 0;
   public playlists: SpotifyPlaylist[] = [];
 
+  // whenever I modify the data I update this data in the service.
+
   constructor(
     private id3TagParserService: Id3TagParserService,
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private trackService: TrackService
   ) {}
+
+  ngOnInit() {
+    this.exactMatches = this.trackService.exactMatches.getValue();
+    this.multipleResults = this.trackService.multipleResults.getValue();
+    this.noResults = this.trackService.noResults.getValue();
+  }
 
   public async handleFilesDropped(files: File[]) {
     debug('handleFilesDropped', files);
@@ -45,9 +56,7 @@ export class LocalTagsComponent {
         .toPromise();
       await this.distributeResults(tag, tracks);
     }
-    this.checkLikedTracks();
-    this.checkSavedAlbums();
-    this.checkFollowedArtists();
+    this.checkStatuses();
     this.getUserPlaylists();
     this.loading = false;
   }
@@ -156,5 +165,11 @@ export class LocalTagsComponent {
       debug('Setting playlists', playlists);
       this.playlists = playlists;
     });
+  }
+
+  private checkStatuses() {
+    this.checkLikedTracks();
+    this.checkSavedAlbums();
+    this.checkFollowedArtists();
   }
 }
