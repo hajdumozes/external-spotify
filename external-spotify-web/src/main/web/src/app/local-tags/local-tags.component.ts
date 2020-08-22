@@ -1,3 +1,4 @@
+import { PlaylistService } from './services/playlist.service';
 import { MultipleResultsService } from './services/multiple-results.service';
 import { NoResultsService } from './services/no-results.service';
 import { ExactMatchesService } from './services/exact-matches.service';
@@ -26,26 +27,26 @@ export class LocalTagsComponent implements OnInit {
   public loading: boolean = false;
   public currentFileName: string = '';
   public progressPercentage: number;
-  public playlists: SpotifyPlaylist[] = [];
+  public playlists: SpotifyPlaylist[];
 
   constructor(
     private id3TagParserService: Id3TagParserService,
     private spotifyService: SpotifyService,
     public exactMatchesService: ExactMatchesService,
     public multipleResultsService: MultipleResultsService,
-    public noResultsService: NoResultsService
+    public noResultsService: NoResultsService,
+    private playlistService: PlaylistService
   ) {}
 
   ngOnInit() {
-    this.exactMatchesService.exactMatches.subscribe((data) => {
-      this.exactMatches = data;
-    });
-    this.multipleResultsService.multipleResult.subscribe((data) => {
-      this.multipleResults = data;
-    });
-    this.noResultsService.noResult.subscribe((data) => {
-      this.noResults = data;
-    });
+    this.exactMatchesService.exactMatches.subscribe(
+      (data) => (this.exactMatches = data)
+    );
+    this.multipleResultsService.multipleResult.subscribe(
+      (data) => (this.multipleResults = data)
+    );
+    this.noResultsService.noResult.subscribe((data) => (this.noResults = data));
+    this.playlistService.playlists.subscribe((data) => (this.playlists = data));
   }
 
   public async handleFilesDropped(files: File[]) {
@@ -170,7 +171,7 @@ export class LocalTagsComponent implements OnInit {
     debug('Start getting user playlists');
     this.spotifyService.getUserPlaylists().subscribe((playlists) => {
       debug('Setting playlists', playlists);
-      this.playlists = playlists;
+      this.playlistService.updateStorage(playlists);
     });
   }
 

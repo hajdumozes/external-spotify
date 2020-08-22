@@ -1,3 +1,4 @@
+import { SpotifyPlaylist } from './local-tags/models/spotify-playlist.model';
 import { SpotifyTrack } from './local-tags/models/spotify-track.model';
 import { User } from './auth/user.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
@@ -39,6 +40,16 @@ export class ObjectMapperService {
       tag.year,
       tag.title
     );
+  }
+
+  public mapToSpotifyPlaylistArray(
+    array: SpotifyPlaylist[]
+  ): SpotifyPlaylist[] {
+    return array.map((playlist) => this.mapToSpotifyPlaylist(playlist));
+  }
+
+  public mapToSpotifyPlaylist(playlist: SpotifyPlaylist): SpotifyPlaylist {
+    return new SpotifyPlaylist(playlist.id, playlist.name, playlist.url);
   }
 
   public mapToId3TagArray(array: Id3Tag[]): Id3Tag[] {
