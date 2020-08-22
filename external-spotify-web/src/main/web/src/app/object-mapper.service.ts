@@ -1,8 +1,8 @@
-import { AuthResponseDataStorage } from './auth/auth.service';
 import { User } from './auth/user.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
 import { SpotifyTrack } from './local-tags/spotify-track.model';
 import { Injectable } from '@angular/core';
+import { AuthResponseDataStorage } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class ObjectMapperService {
   constructor() {}
 
-  public mapToSpotifyTrack(track: SpotifyTrack) {
+  public mapToSpotifyTrack(track: SpotifyTrack): SpotifyTrack {
     return new SpotifyTrack(
       track.album,
       track.albumId,
@@ -20,15 +20,17 @@ export class ObjectMapperService {
       track.artists,
       track.url,
       track.uri,
-      track.previewUrl
+      track.previewUrl,
+      track.liked,
+      track.albumSaved
     );
   }
 
-  public mapToSpotifyTrackArray(array: SpotifyTrack[]) {
+  public mapToSpotifyTrackArray(array: SpotifyTrack[]): SpotifyTrack[] {
     return array.map((track) => this.mapToSpotifyTrack(track));
   }
 
-  public mapToId3Tag(tag: Id3Tag) {
+  public mapToId3Tag(tag: Id3Tag): Id3Tag {
     return new Id3Tag(
       tag.album,
       tag.albumArtist,
@@ -39,11 +41,11 @@ export class ObjectMapperService {
     );
   }
 
-  public mapToId3TagArray(array: Id3Tag[]) {
+  public mapToId3TagArray(array: Id3Tag[]): Id3Tag[] {
     return array.map((tag) => this.mapToId3Tag(tag));
   }
 
-  public mapStorageDataToUser(data: AuthResponseDataStorage) {
+  public mapStorageDataToUser(data: AuthResponseDataStorage): User {
     return new User(
       data._accessToken,
       data._refreshToken,

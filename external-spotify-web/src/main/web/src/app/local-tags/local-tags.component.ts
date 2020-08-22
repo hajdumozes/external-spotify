@@ -1,5 +1,6 @@
-import { TrackService } from './track.service';
-import { ObjectMapperService } from './../object-mapper.service';
+import { MultipleResultsService } from './multiple-results.service';
+import { NoResultsService } from './no-results.service';
+import { ExactMatchesService } from './exact-matches.service';
 import { SpotifyTrack } from './spotify-track.model';
 import { SpotifyPlaylist } from './spotify-playlist.model';
 import { SpotifyArtist } from './spotify-artist.model';
@@ -30,13 +31,21 @@ export class LocalTagsComponent implements OnInit {
   constructor(
     private id3TagParserService: Id3TagParserService,
     private spotifyService: SpotifyService,
-    private trackService: TrackService
+    public exactMatchesService: ExactMatchesService,
+    public multipleResultsService: MultipleResultsService,
+    public noResultsService: NoResultsService
   ) {}
 
   ngOnInit() {
-    this.exactMatches = this.trackService.exactMatches.getValue();
-    this.multipleResults = this.trackService.multipleResults.getValue();
-    this.noResults = this.trackService.noResults.getValue();
+    this.exactMatchesService.exactMatches.subscribe((data) => {
+      this.exactMatches = data;
+    });
+    this.multipleResultsService.multipleResult.subscribe((data) => {
+      this.multipleResults = data;
+    });
+    this.noResultsService.noResult.subscribe((data) => {
+      this.noResults = data;
+    });
   }
 
   public async handleFilesDropped(files: File[]) {
@@ -78,12 +87,15 @@ export class LocalTagsComponent implements OnInit {
     debug('Start distributing results', tracks);
     if (tracks.length === 1) {
       this.addIfNotPresent(this.exactMatches, tracks[0]);
+      this.exactMatchesService.updateStorage(this.exactMatches);
     } else if (tracks.length > 1) {
       tracks.forEach((track) =>
         this.addIfNotPresent(this.multipleResults, track)
       );
+      this.multipleResultsService.updateStorage(this.multipleResults);
     } else {
       this.addIfNotPresent(this.noResults, tag);
+      this.noResultsService.updateStorage(this.noResults);
     }
   }
 
@@ -93,7 +105,7 @@ export class LocalTagsComponent implements OnInit {
     }
   }
 
-  private checkLikedTracks() {
+  private async checkLikedTracks() {
     debug('Start checking liked tracks');
     const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
       this.multipleResults
@@ -101,19 +113,18 @@ export class LocalTagsComponent implements OnInit {
     const ids = spotifyTracks.map((track) => track.trackId);
     const idChunks: string[][] = Utils.chunkArray(ids, 50);
     let i = 0;
-    idChunks.forEach((idChunk) =>
-      this.spotifyService
+    for await (const idChunk of idChunks) {
+      const areTracksLiked = await this.spotifyService
         .checkLikedTracks(idChunk.join(','))
-        .subscribe((areTracksLiked) =>
-          areTracksLiked.map((isTrackLiked) => {
-            spotifyTracks[i].liked = isTrackLiked;
-            i++;
-          })
-        )
-    );
+        .toPromise();
+      areTracksLiked.map((isTrackLiked) => {
+        spotifyTracks[i].liked = isTrackLiked;
+        i++;
+      });
+    }
   }
 
-  private checkSavedAlbums() {
+  private async checkSavedAlbums() {
     debug('Start checking saved albums');
     const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
       this.multipleResults
@@ -121,19 +132,18 @@ export class LocalTagsComponent implements OnInit {
     const ids = spotifyTracks.map((track) => track.albumId);
     const idChunks: string[][] = Utils.chunkArray(ids, 50);
     let i = 0;
-    idChunks.forEach((idChunk) =>
-      this.spotifyService
+    for await (const idChunk of idChunks) {
+      const areAlbumsSaved = await this.spotifyService
         .checkSavedAlbums(idChunk.join(','))
-        .subscribe((areAlbumsSaved) =>
-          areAlbumsSaved.map((isAlbumSaved) => {
-            spotifyTracks[i].albumSaved = isAlbumSaved;
-            i++;
-          })
-        )
-    );
+        .toPromise();
+      areAlbumsSaved.map((isAlbumSaved) => {
+        spotifyTracks[i].albumSaved = isAlbumSaved;
+        i++;
+      });
+    }
   }
 
-  private checkFollowedArtists() {
+  private async checkFollowedArtists() {
     debug('Start checking followed artists');
     const spotifyTracks: SpotifyTrack[] = this.exactMatches.concat(
       this.multipleResults
@@ -145,16 +155,15 @@ export class LocalTagsComponent implements OnInit {
     const artistIds: string[] = mergedArtists.map((artist) => artist.id);
     const idChunks: string[][] = Utils.chunkArray(artistIds, 50);
     let i = 0;
-    idChunks.forEach((idChunk) =>
-      this.spotifyService
+    for await (const idChunk of idChunks) {
+      const areArtistsFollowed = await this.spotifyService
         .checkFollowedArtists(idChunk.join(','))
-        .subscribe((areArtistsFollowed) =>
-          areArtistsFollowed.map((isArtistFollowed) => {
-            mergedArtists[i].followed = isArtistFollowed;
-            i++;
-          })
-        )
-    );
+        .toPromise();
+      areArtistsFollowed.map((isArtistFollowed) => {
+        mergedArtists[i].followed = isArtistFollowed;
+        i++;
+      });
+    }
   }
 
   private getUserPlaylists() {
@@ -165,10 +174,12 @@ export class LocalTagsComponent implements OnInit {
     });
   }
 
-  private checkStatuses() {
-    this.checkLikedTracks();
-    this.checkSavedAlbums();
-    this.checkFollowedArtists();
+  private async checkStatuses() {
+    await this.checkLikedTracks();
+    await this.checkSavedAlbums();
+    // todo artists shouldn't contain duplicate ids
+    //await this.checkFollowedArtists();
+    this.saveState();
   }
 
   public clearData() {
@@ -178,9 +189,9 @@ export class LocalTagsComponent implements OnInit {
     this.saveState();
   }
 
-  public saveState() {
-    this.trackService.updateExactMatches(this.exactMatches);
-    this.trackService.updateMultipleResults(this.multipleResults);
-    this.trackService.updateNoResults(this.noResults);
+  private saveState() {
+    this.exactMatchesService.updateStorage(this.exactMatches);
+    this.multipleResultsService.updateStorage(this.multipleResults);
+    this.noResultsService.updateStorage(this.noResults);
   }
 }
