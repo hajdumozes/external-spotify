@@ -44,19 +44,25 @@ export class TrackService {
 
   public updateExactMatches(tracks: SpotifyTrack[]) {
     this.exactMatches.next(tracks);
-    localStorage.setItem('exactMatches', JSON.stringify(this.exactMatches));
+    localStorage.setItem(
+      'exactMatches',
+      JSON.stringify(this.exactMatches.getValue())
+    );
   }
 
   public updateMultipleResults(tracks: SpotifyTrack[]) {
     this.multipleResults.next(tracks);
     localStorage.setItem(
       'multipleResults',
-      JSON.stringify(this.multipleResults)
+      JSON.stringify(this.multipleResults.getValue())
     );
   }
 
   public updateNoResults(tags: Id3Tag[]) {
     this.noResults.next(tags);
-    localStorage.setItem('noResults', JSON.stringify(this.noResults));
+    localStorage.setItem(
+      'noResults',
+      JSON.stringify(this.noResults.getValue())
+    );
   }
 }

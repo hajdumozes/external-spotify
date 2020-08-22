@@ -24,10 +24,8 @@ export class LocalTagsComponent implements OnInit {
   public noResults: Id3Tag[];
   public loading: boolean = false;
   public currentFileName: string = '';
-  public progressPercentage: number = 0;
+  public progressPercentage: number;
   public playlists: SpotifyPlaylist[] = [];
-
-  // whenever I modify the data I update this data in the service.
 
   constructor(
     private id3TagParserService: Id3TagParserService,
@@ -171,5 +169,18 @@ export class LocalTagsComponent implements OnInit {
     this.checkLikedTracks();
     this.checkSavedAlbums();
     this.checkFollowedArtists();
+  }
+
+  public clearData() {
+    this.exactMatches = [];
+    this.multipleResults = [];
+    this.noResults = [];
+    this.saveState();
+  }
+
+  public saveState() {
+    this.trackService.updateExactMatches(this.exactMatches);
+    this.trackService.updateMultipleResults(this.multipleResults);
+    this.trackService.updateNoResults(this.noResults);
   }
 }
