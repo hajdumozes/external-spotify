@@ -14,4 +14,5 @@ public class SpotifyTrack {
     private List<SpotifyArtist> artists;
     private String url;
     private String uri;
+    private String previewUrl;
 }

@@ -68,7 +68,14 @@ import Utils from './../../../util/Utils';
           <td>{{ track.title }}</td>
           <td>{{ track.album }}</td>
           <td>{{ track.artistNames.join(', ') }}</td>
-          <td><a href="{{ track.url }}" target="_blank">Link</a></td>
+          <td>
+            <div>
+              <a href="{{ track.url }}">Open in web app</a>
+            </div>
+            <div>
+              <a href="{{ track.previewUrl }}">Play preview</a>
+            </div>
+          </td>
           <td>
             <app-like-icon [tracks]="[tracks[i]]"></app-like-icon>
             <app-album-icon [tracks]="[tracks[i]]"></app-album-icon>

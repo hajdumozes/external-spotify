@@ -164,6 +164,7 @@ public class SpotifyApiServiceImpl implements SpotifyApiService {
         spotifyTrack.setArtists(artists);
         spotifyTrack.setUrl(track.getExternalUrls().getExternalUrls().get("spotify"));
         spotifyTrack.setUri(track.getUri());
+        spotifyTrack.setPreviewUrl(track.getPreviewUrl());
         return spotifyTrack;
     }
 

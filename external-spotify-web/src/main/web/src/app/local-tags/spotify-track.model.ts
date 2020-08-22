@@ -10,6 +10,7 @@ export class SpotifyTrack implements UniqueObject {
     public artists: SpotifyArtist[],
     public url: string,
     public uri: string,
+    public previewUrl: string,
     public liked: boolean = false,
     public albumSaved: boolean = false
   ) {}
