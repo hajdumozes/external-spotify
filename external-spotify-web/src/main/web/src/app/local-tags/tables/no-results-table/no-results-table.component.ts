@@ -1,4 +1,4 @@
-import { TrackService } from './../../track.service';
+import { TrackService } from './../../services/track.service';
 import { Id3Tag } from './../../id3-tag.model';
 import { Component, Input } from '@angular/core';
 import Utils from './../../../util/Utils';

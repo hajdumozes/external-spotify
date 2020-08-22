@@ -1,6 +1,6 @@
+import { SpotifyTrack } from './local-tags/models/spotify-track.model';
 import { User } from './auth/user.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
-import { SpotifyTrack } from './local-tags/spotify-track.model';
 import { Injectable } from '@angular/core';
 import { AuthResponseDataStorage } from './auth/auth.service';
 

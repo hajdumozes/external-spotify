@@ -1,9 +1,9 @@
-import { MultipleResultsService } from './multiple-results.service';
-import { NoResultsService } from './no-results.service';
-import { ExactMatchesService } from './exact-matches.service';
-import { SpotifyTrack } from './spotify-track.model';
-import { SpotifyPlaylist } from './spotify-playlist.model';
-import { SpotifyArtist } from './spotify-artist.model';
+import { MultipleResultsService } from './services/multiple-results.service';
+import { NoResultsService } from './services/no-results.service';
+import { ExactMatchesService } from './services/exact-matches.service';
+import { SpotifyTrack } from './models/spotify-track.model';
+import { SpotifyPlaylist } from './models/spotify-playlist.model';
+import { SpotifyArtist } from './models/spotify-artist.model';
 import { Id3Tag } from './id3-tag.model';
 import { SpotifyService } from './../spotify.service';
 import { Component, OnInit } from '@angular/core';

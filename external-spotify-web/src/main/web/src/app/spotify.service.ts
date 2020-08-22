@@ -1,11 +1,11 @@
+import { SpotifyTrack } from './local-tags/models/spotify-track.model';
+import { SpotifyPlaylist } from './local-tags/models/spotify-playlist.model';
 import { ObjectMapperService } from './object-mapper.service';
-import { SpotifyPlaylist } from './local-tags/spotify-playlist.model';
 import { Id3Tag } from './local-tags/id3-tag.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
-import { SpotifyTrack } from './local-tags/spotify-track.model';
 import { AuthService, AuthResponseData } from './auth/auth.service';
 
 interface SpotifyTracksCredential {

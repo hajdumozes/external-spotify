@@ -1,4 +1,4 @@
-import { UniqueObject } from './unique-object';
+import { UniqueObject } from './models/unique-object';
 
 export class Id3Tag implements UniqueObject {
   constructor(

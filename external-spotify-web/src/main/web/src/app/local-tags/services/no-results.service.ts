@@ -1,6 +1,6 @@
 import { TrackService } from './track.service';
-import { ObjectMapperService } from './../object-mapper.service';
-import { Id3Tag } from './id3-tag.model';
+import { ObjectMapperService } from './../../object-mapper.service';
+import { Id3Tag } from './../id3-tag.model';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 

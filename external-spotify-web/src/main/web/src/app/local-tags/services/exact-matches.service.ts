@@ -1,6 +1,6 @@
 import { TrackService } from './track.service';
-import { ObjectMapperService } from './../object-mapper.service';
-import { SpotifyTrack } from './spotify-track.model';
+import { ObjectMapperService } from './../../object-mapper.service';
+import { SpotifyTrack } from './../models/spotify-track.model';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 

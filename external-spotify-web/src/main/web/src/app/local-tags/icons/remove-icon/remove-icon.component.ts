@@ -1,4 +1,4 @@
-import { TrackService } from './../../track.service';
+import { TrackService } from './../../services/track.service';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import Utils from './../../../util/Utils';
 

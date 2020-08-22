@@ -1,6 +1,6 @@
 import { SpotifyService } from './../../../spotify.service';
-import { SpotifyPlaylist } from './../../spotify-playlist.model';
-import { SpotifyTrack } from './../../spotify-track.model';
+import { SpotifyPlaylist } from './../../models/spotify-playlist.model';
+import { SpotifyTrack } from './../../models/spotify-track.model';
 import { Component, Input, Inject } from '@angular/core';
 import {
   MatDialog,

@@ -1,6 +1,6 @@
-import { TrackService } from './../../track.service';
-import { SpotifyArtist } from './../../spotify-artist.model';
-import { SpotifyTrack } from './../../spotify-track.model';
+import { TrackService } from './../../services/track.service';
+import { SpotifyArtist } from './../../models/spotify-artist.model';
+import { SpotifyTrack } from './../../models/spotify-track.model';
 import { SpotifyService } from './../../../spotify.service';
 import { Component, Input } from '@angular/core';
 import Utils from './../../../util/Utils';

@@ -1,4 +1,4 @@
-import { UniqueObject } from '../local-tags/unique-object';
+import { UniqueObject } from '../local-tags/models/unique-object';
 
 export default class Utils {
   static chunkArray(array: any[], chunkSize: number): any[][] {
