@@ -21,7 +21,11 @@
         uploaded anywhere else.
       </p>
     </app-drag-and-drop-box>
-    <button (click)="clearData()">Clear</button>
+    <div class="float-right">
+      <button mat-button (click)="clearData()" matTooltip="Clear list">
+        <mat-icon>restore</mat-icon>
+      </button>
+    </div>
     <app-exact-matches-table
       [tracks]="exactMatches"
       [playlists]="playlists"
