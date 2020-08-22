@@ -1,3 +1,4 @@
+import { TrackService } from './../../track.service';
 import { SpotifyPlaylist } from './../../spotify-playlist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input } from '@angular/core';
@@ -24,9 +25,18 @@ import Utils from './../../../util/Utils';
           <td></td>
           <td></td>
           <td>
-            <app-like-icon [tracks]="tracks"></app-like-icon>
-            <app-album-icon [tracks]="tracks"></app-album-icon>
-            <app-follow-artist-icon [tracks]="tracks"></app-follow-artist-icon>
+            <app-like-icon
+              [tracks]="tracks"
+              [trackService]="trackService"
+            ></app-like-icon>
+            <app-album-icon
+              [tracks]="tracks"
+              [trackService]="trackService"
+            ></app-album-icon>
+            <app-follow-artist-icon
+              [tracks]="tracks"
+              [trackService]="trackService"
+            ></app-follow-artist-icon>
             <app-playlist-icon
               [tracks]="tracks"
               [playlists]="playlists"
@@ -34,6 +44,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon
               [array]="tracks"
               [items]="tracks"
+              [trackService]="trackService"
             ></app-remove-icon>
           </td>
         </tr>
@@ -43,10 +54,17 @@ import Utils from './../../../util/Utils';
           <td></td>
           <td></td>
           <td>
-            <app-like-icon [tracks]="selectedTracks"></app-like-icon>
-            <app-album-icon [tracks]="selectedTracks"></app-album-icon>
+            <app-like-icon
+              [tracks]="selectedTracks"
+              [trackService]="trackService"
+            ></app-like-icon>
+            <app-album-icon
+              [tracks]="selectedTracks"
+              [trackService]="trackService"
+            ></app-album-icon>
             <app-follow-artist-icon
               [tracks]="selectedTracks"
+              [trackService]="trackService"
             ></app-follow-artist-icon>
             <app-playlist-icon
               [tracks]="selectedTracks"
@@ -55,6 +73,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon
               [array]="tracks"
               [items]="selectedTracks"
+              [trackService]="trackService"
               (clearSelectedTagsEvent)="clearSelectedTags()"
             ></app-remove-icon>
           </td>
@@ -77,10 +96,17 @@ import Utils from './../../../util/Utils';
             </div>
           </td>
           <td>
-            <app-like-icon [tracks]="[tracks[i]]"></app-like-icon>
-            <app-album-icon [tracks]="[tracks[i]]"></app-album-icon>
+            <app-like-icon
+              [tracks]="[tracks[i]]"
+              [trackService]="trackService"
+            ></app-like-icon>
+            <app-album-icon
+              [tracks]="[tracks[i]]"
+              [trackService]="trackService"
+            ></app-album-icon>
             <app-follow-artist-icon
               [tracks]="[tracks[i]]"
+              [trackService]="trackService"
             ></app-follow-artist-icon>
             <app-playlist-icon
               [tracks]="[tracks[i]]"
@@ -89,6 +115,7 @@ import Utils from './../../../util/Utils';
             <app-remove-icon
               [array]="tracks"
               [items]="tracks[i]"
+              [trackService]="trackService"
             ></app-remove-icon>
           </td>
         </tr>
@@ -102,6 +129,7 @@ import Utils from './../../../util/Utils';
 })
 export class MultipleResultsTableComponent {
   @Input() tracks: SpotifyTrack[];
+  @Input() trackService: TrackService;
   @Input() playlists: SpotifyPlaylist[];
   selectedTracks: SpotifyTrack[] = [];
 

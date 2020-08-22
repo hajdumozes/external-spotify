@@ -1,3 +1,4 @@
+import { TrackService } from './../../track.service';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import Utils from './../../../util/Utils';
 
@@ -22,6 +23,7 @@ import Utils from './../../../util/Utils';
 export class RemoveIconComponent {
   @Input() array: any[];
   @Input() items: any[];
+  @Input() trackService: TrackService;
   @Output() public clearSelectedTagsEvent = new EventEmitter<void>();
 
   constructor() {}
@@ -42,5 +44,6 @@ export class RemoveIconComponent {
     if (index > -1) {
       array.splice(index, 1);
     }
+    this.trackService.updateStorage(array);
   }
 }

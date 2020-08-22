@@ -1,3 +1,4 @@
+import { TrackService } from './../../track.service';
 import { SpotifyService } from './../../../spotify.service';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { Component, Input } from '@angular/core';
@@ -20,6 +21,8 @@ import Utils from './../../../util/Utils';
 })
 export class LikeIconComponent {
   @Input() public tracks: SpotifyTrack[];
+  @Input() trackService: TrackService;
+
   constructor(private spotifyService: SpotifyService) {}
 
   public likeTracks(tracks: SpotifyTrack[]) {
@@ -37,6 +40,7 @@ export class LikeIconComponent {
 
   public setTracksLiked(tracks: SpotifyTrack[]) {
     tracks.forEach((track) => (track.liked = true));
+    this.trackService.updateStorage(tracks);
   }
 
   public allLiked(tracks: SpotifyTrack[]) {

@@ -1,3 +1,4 @@
+import { TrackService } from './../../track.service';
 import { Id3Tag } from './../../id3-tag.model';
 import { Component, Input } from '@angular/core';
 import Utils from './../../../util/Utils';
@@ -35,6 +36,7 @@ import Utils from './../../../util/Utils';
               [array]="tags"
               [items]="selectedTags"
               (clearSelectedTagsEvent)="clearSelectedTags()"
+              [trackService]="trackService"
             ></app-remove-icon>
           </td>
         </tr>
@@ -64,6 +66,7 @@ import Utils from './../../../util/Utils';
   ],
 })
 export class NoResultsTableComponent {
+  @Input() trackService: TrackService;
   @Input() tags: Id3Tag[];
   selectedTags: Id3Tag[] = [];
 

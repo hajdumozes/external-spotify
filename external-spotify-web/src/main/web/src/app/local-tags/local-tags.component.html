@@ -25,11 +25,16 @@
     <app-exact-matches-table
       [tracks]="exactMatches"
       [playlists]="playlists"
+      [trackService]="exactMatchesService"
     ></app-exact-matches-table>
     <app-multiple-results-table
       [tracks]="multipleResults"
       [playlists]="playlists"
+      [trackService]="multipleResultsService"
     ></app-multiple-results-table>
-    <app-no-results-table [tags]="noResults"></app-no-results-table>
+    <app-no-results-table
+      [tags]="noResults"
+      [trackService]="noResultsService"
+    ></app-no-results-table>
   </div>
 </div>

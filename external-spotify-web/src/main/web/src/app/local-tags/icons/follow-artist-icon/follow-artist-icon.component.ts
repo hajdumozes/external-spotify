@@ -1,3 +1,4 @@
+import { TrackService } from './../../track.service';
 import { SpotifyArtist } from './../../spotify-artist.model';
 import { SpotifyTrack } from './../../spotify-track.model';
 import { SpotifyService } from './../../../spotify.service';
@@ -26,6 +27,7 @@ import Utils from './../../../util/Utils';
 })
 export class FollowArtistIconComponent {
   @Input() tracks: SpotifyTrack[];
+  @Input() trackService: TrackService;
 
   constructor(private spotifyService: SpotifyService) {}
 
@@ -48,6 +50,7 @@ export class FollowArtistIconComponent {
     tracks.forEach((track) =>
       track.artists.forEach((artist) => (artist.followed = true))
     );
+    this.trackService.updateStorage(tracks);
   }
 
   public allFollowed(tracks: SpotifyTrack[]) {
